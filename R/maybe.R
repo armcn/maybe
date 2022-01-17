@@ -43,22 +43,35 @@ from_maybe <- function(.m, default) {
 }
 
 #' @export
-maybe_map <- fmap
-
-#' @export
-and_then <- bind
-
-#' @export
-with_default <- from_maybe
-
-#' @export
 just <- function(a) {
-  maybe(list(type = "just", content = a))
+  as_maybe(list(type = "just", content = a))
 }
 
 #' @export
 nothing <- function() {
-  maybe(list(type = "nothing"))
+  as_maybe(list(type = "nothing"))
+}
+
+#' @export
+maybe <- function(.f, allow_warning = FALSE) {
+  \(...) {
+    on_warning <-
+      \(w)
+        if (allow_warning)
+          .f(...)
+
+        else
+          nothing()
+
+    on_error <-
+      \(e) nothing()
+
+    tryCatch(
+      just(.f(...)),
+      error = on_error,
+      warning = on_warning
+    )
+  }
 }
 
 #' @export
@@ -72,7 +85,16 @@ print.maybe <- function(x, ...) {
   }
 }
 
-maybe <- function(a) {
+#' @export
+maybe_map <- fmap
+
+#' @export
+and_then <- bind
+
+#' @export
+with_default <- from_maybe
+
+as_maybe <- function(a) {
   structure(a, class = "maybe")
 }
 
