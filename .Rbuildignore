@@ -1,2 +1,13 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^LICENSE\.md$
+^codecov\.yml$
+^README\.Rmd$
+^README-.*\.png$
+^_pkgdown\.yml$
+^pkgdown$
+^docs$
+^\.github$
+^man-roxygen$
+^cran-comments.md$
+^CRAN-RELEASE$
