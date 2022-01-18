@@ -57,7 +57,7 @@ maybe <- function(.f,
                   allow_warning = FALSE,
                   allow_empty_vector = FALSE,
                   allow_empty_dataframe = FALSE,
-                  assert_result = \(a) TRUE) {
+                  assert = \(a) TRUE) {
   \(...) {
     on_warning <-
       \(w)
@@ -86,22 +86,15 @@ maybe <- function(.f,
         !allow_empty_dataframe &&
         is_empty_dataframe(a)
 
-    is_undefined <-
-      \(a)
-        is.null(a) ||
-        is.na(a) ||
-        is.nan(a) ||
-        is.infinite(a)
-
     eval_f <-
       \(...) {
         result <-
           .f(...)
 
         assertion_failed <-
-          \(a) !isTRUE(assert_result(a))
+          \(a) !isTRUE(assert(a))
 
-        if (is_undefined(result) ||
+        if (is.null(result) ||
             is_disallowed_empty_vector(result) ||
             is_disallowed_empty_dataframe(result) ||
             assertion_failed(result))
