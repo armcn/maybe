@@ -53,7 +53,11 @@ nothing <- function() {
 }
 
 #' @export
-maybe <- function(.f, allow_warning = FALSE) {
+maybe <- function(.f,
+                  allow_warning = FALSE,
+                  allow_empty_vector = FALSE,
+                  allow_empty_dataframe = FALSE,
+                  assert_result = \(a) TRUE) {
   \(...) {
     on_warning <-
       \(w)
@@ -66,13 +70,63 @@ maybe <- function(.f, allow_warning = FALSE) {
     on_error <-
       \(e) nothing()
 
+    is_empty_vector <-
+      \(a) length(a) == 0L
+
+    is_empty_dataframe <-
+      \(a) is.data.frame(a) && nrow(a) == 0L
+
+    is_disallowed_empty_vector <-
+      \(a)
+        !allow_empty_vector &&
+        is_empty_vector(a)
+
+    is_disallowed_empty_dataframe <-
+      \(a)
+        !allow_empty_dataframe &&
+        is_empty_dataframe(a)
+
+    is_undefined <-
+      \(a)
+        is.null(a) ||
+        is.na(a) ||
+        is.nan(a) ||
+        is.infinite(a)
+
+    eval_f <-
+      \(...) {
+        result <-
+          .f(...)
+
+        assertion_failed <-
+          \(a) !isTRUE(assert_result(a))
+
+        if (is_undefined(result) ||
+            is_disallowed_empty_vector(result) ||
+            is_disallowed_empty_dataframe(result) ||
+            assertion_failed(result))
+          nothing()
+
+        else
+          just(result)
+      }
+
     tryCatch(
-      just(.f(...)),
+      eval_f(...),
       error = on_error,
       warning = on_warning
     )
   }
 }
+
+#' @export
+map_maybe <- fmap
+
+#' @export
+and_then <- bind
+
+#' @export
+with_default <- from_maybe
 
 #' @export
 print.maybe <- function(x, ...) {
@@ -84,15 +138,6 @@ print.maybe <- function(x, ...) {
     cat("Nothing")
   }
 }
-
-#' @export
-maybe_map <- fmap
-
-#' @export
-and_then <- bind
-
-#' @export
-with_default <- from_maybe
 
 as_maybe <- function(a) {
   structure(a, class = "maybe")
@@ -109,3 +154,4 @@ is_just <- function(.m) {
 is_nothing <- function(.m) {
   is_maybe(.m) && .m$type == "nothing"
 }
+
