@@ -53,11 +53,7 @@ nothing <- function() {
 }
 
 #' @export
-maybe <- function(.f,
-                  allow_warning = FALSE,
-                  allow_empty_vector = FALSE,
-                  allow_empty_dataframe = FALSE,
-                  assert = \(a) TRUE) {
+maybe <- function(.f, allow_warning = FALSE, assert = \(a) TRUE) {
   \(...) {
     on_warning <-
       \(w)
@@ -70,22 +66,6 @@ maybe <- function(.f,
     on_error <-
       \(e) nothing()
 
-    is_empty_vector <-
-      \(a) length(a) == 0L
-
-    is_empty_dataframe <-
-      \(a) is.data.frame(a) && nrow(a) == 0L
-
-    is_disallowed_empty_vector <-
-      \(a)
-        !allow_empty_vector &&
-        is_empty_vector(a)
-
-    is_disallowed_empty_dataframe <-
-      \(a)
-        !allow_empty_dataframe &&
-        is_empty_dataframe(a)
-
     eval_f <-
       \(...) {
         result <-
@@ -94,10 +74,7 @@ maybe <- function(.f,
         assertion_failed <-
           \(a) !isTRUE(assert(a))
 
-        if (is.null(result) ||
-            is_disallowed_empty_vector(result) ||
-            is_disallowed_empty_dataframe(result) ||
-            assertion_failed(result))
+        if (assertion_failed(result))
           nothing()
 
         else
@@ -135,16 +112,3 @@ print.maybe <- function(x, ...) {
 as_maybe <- function(a) {
   structure(a, class = "maybe")
 }
-
-is_maybe <- function(.m) {
-  class(.m) == "maybe"
-}
-
-is_just <- function(.m) {
-  is_maybe(.m) && .m$type == "just"
-}
-
-is_nothing <- function(.m) {
-  is_maybe(.m) && .m$type == "nothing"
-}
-

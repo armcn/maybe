@@ -94,3 +94,36 @@ safe_sqrt <- function(a) {
 seq(1, 10) |> safe_mean() |> and_then(safe_sqrt) |> with_default(0)
 ```
 
+Functions can also be converted to "safe" functions in another way. Instead
+of rewriting the function we can wrap it in `maybe`. This will alter the function
+to return `Nothing` on error or warning and we can optionally provide a predicate 
+function (a function that returns TRUE or FALSE) to assert something about the 
+output. For example here are the above functions made "safe" with `maybe`.
+
+```{r}
+safe_mean <- maybe(mean, assert = not_nan)
+
+safe_sqrt <- maybe(sqrt, assert = not_infinite)
+
+seq(1, 10) |> safe_mean() |> and_then(safe_sqrt) |> with_default(0)
+
+maybe(mean)("hello")
+```
+
+Combine multiple predicates with `and` or `or` functions.
+
+```{r}
+safe_mean <- maybe(mean, assert = and(not_nan, not_na))
+
+safe_mean(1:10)
+```
+
+Or use predefined combinations like `not_undefined` which checks if the output
+is not `NULL`, `NA`, `NaN`, or infinte.
+
+```{r}
+safe_mean <- maybe(mean, assert = not_undefined)
+
+safe_mean(c(NA, 1, 2))
+```
+
