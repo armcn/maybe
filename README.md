@@ -107,13 +107,22 @@ above functions made “safe” with `maybe`.
 
 ``` r
 safe_mean <- maybe(mean, assert = not_nan)
-
 safe_sqrt <- maybe(sqrt, assert = not_infinite)
 
 seq(1, 10) |> safe_mean() |> and_then(safe_sqrt) |> with_default(0)
 #> [1] 2.345208
+```
 
-maybe(mean)("hello")
+It will automatically capture errors and warnings and return `Nothing`.
+Warnings can be allowed by setting `allow_warnings = TRUE`.
+
+``` r
+safe_mean <- maybe(mean)
+
+safe_mean(1:10)
+#> Just
+#> [1] 5.5
+safe_mean("hello")
 #> Nothing
 ```
 
@@ -128,11 +137,14 @@ safe_mean(1:10)
 ```
 
 Or use predefined combinations like `not_undefined` which checks if the
-output is not `NULL`, `NA`, `NaN`, or infinte.
+output is not `NULL`, `NA`, `NaN`, `-Inf`, or `Inf`.
 
 ``` r
 safe_mean <- maybe(mean, assert = not_undefined)
 
-safe_mean(c(NA, 1, 2))
+safe_mean(c(1, 2, 3))
+#> Just
+#> [1] 2
+safe_mean(c(NA, 2, 3))
 #> Nothing
 ```
