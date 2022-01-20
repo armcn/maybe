@@ -1,5 +1,5 @@
 Package: maybe
-Title: What the Package Does (One Line, Title Case)
+Title: The Maybe Monad in R
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Andrew",
@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "andrew.richard.mcneil@gmail.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: The maybe monad in R.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

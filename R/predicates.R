@@ -1,21 +1,16 @@
 #' @export
-and <- function(...) {
-  \(b)
-    Reduce(
-      f = \(acc, a) acc & a(b),
-      x = list(...),
-      init = TRUE
-    )
+is_maybe <- function(.m) {
+  class(.m) == "maybe"
 }
 
 #' @export
-or <- function(...) {
-  \(b)
-    Reduce(
-      f = \(acc, a) acc | a(b),
-      x = list(...),
-      init = FALSE
-    )
+is_just <- function(.m) {
+  is_maybe(.m) && .m$type == "just"
+}
+
+#' @export
+is_nothing <- function(.m) {
+  is_maybe(.m) && .m$type == "nothing"
 }
 
 #' @export
@@ -63,14 +58,22 @@ not_undefined <- function(a) {
   )(a)
 }
 
-is_maybe <- function(.m) {
-  class(.m) == "maybe"
+#' @export
+and <- function(...) {
+  \(b)
+    Reduce(
+      f = \(acc, a) acc & a(b),
+      x = list(...),
+      init = TRUE
+    )
 }
 
-is_just <- function(.m) {
-  is_maybe(.m) && .m$type == "just"
-}
-
-is_nothing <- function(.m) {
-  is_maybe(.m) && .m$type == "nothing"
+#' @export
+or <- function(...) {
+  \(b)
+    Reduce(
+      f = \(acc, a) acc | a(b),
+      x = list(...),
+      init = FALSE
+    )
 }

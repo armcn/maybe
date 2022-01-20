@@ -1,3 +1,60 @@
+#' @export
+just <- function(a) {
+  as_maybe(list(type = "just", content = a))
+}
+
+#' @export
+nothing <- function() {
+  as_maybe(list(type = "nothing"))
+}
+
+#' @export
+maybe <- function(.f, allow_warning = FALSE, result = not_undefined) {
+  \(...) {
+    on_warning <-
+      \(w)
+        if (allow_warning)
+          .f(...)
+
+        else
+          nothing()
+
+    on_error <-
+      \(e) nothing()
+
+    eval_f <-
+      \(...) {
+        res <-
+          .f(...)
+
+        assertion_failed <-
+          \(a) !isTRUE(result(a))
+
+        if (assertion_failed(res))
+          nothing()
+
+        else
+          just(res)
+      }
+
+    tryCatch(
+      eval_f(...),
+      error = on_error,
+      warning = on_warning
+    )
+  }
+}
+
+#' @export
+perhaps <- function(.f,
+                    otherwise,
+                    allow_warning = FALSE,
+                    result = not_undefined) {
+  \(...)
+    maybe(.f, allow_warning = allow_warning, result = result)(...) |>
+      with_default(default = otherwise)
+}
+
 fmap <- function(.m, .f, ...) {
   UseMethod("fmap", .m)
 }
@@ -40,53 +97,6 @@ from_maybe <- function(.m, default) {
 
   else
     default
-}
-
-#' @export
-just <- function(a) {
-  as_maybe(list(type = "just", content = a))
-}
-
-#' @export
-nothing <- function() {
-  as_maybe(list(type = "nothing"))
-}
-
-#' @export
-maybe <- function(.f, allow_warning = FALSE, assert = \(a) TRUE) {
-  \(...) {
-    on_warning <-
-      \(w)
-        if (allow_warning)
-          .f(...)
-
-        else
-          nothing()
-
-    on_error <-
-      \(e) nothing()
-
-    eval_f <-
-      \(...) {
-        result <-
-          .f(...)
-
-        assertion_failed <-
-          \(a) !isTRUE(assert(a))
-
-        if (assertion_failed(result))
-          nothing()
-
-        else
-          just(result)
-      }
-
-    tryCatch(
-      eval_f(...),
-      error = on_error,
-      warning = on_warning
-    )
-  }
 }
 
 #' @export
