@@ -74,20 +74,6 @@ safe_divide(2, 0) |> with_default(0)
 #> [1] 0
 ```
 
-The pattern of wrapping a function in the `maybe` function and then
-setting a default value is so common there is a shortcut, `perhaps`. The
-default value is set with the `otherwise` parameter. This function will
-always return regular R values, not maybes.
-
-``` r
-safe_mean <- perhaps(mean, otherwise = 0)
-
-safe_mean(1:10)
-#> [1] 5.5
-safe_mean("hello")
-#> [1] 0
-```
-
 It gets more interesting when we chain maybe values together. Instead of
 having to use `with_default` every time you use a function that produces
 maybe values, they can be chained and `with_default` only needs to be
@@ -170,6 +156,20 @@ safe_mean <- maybe(mean, allow_warning = TRUE)
 safe_mean("hello")
 #> Warning in mean.default(...): argument is not numeric or logical: returning NA
 #> [1] NA
+```
+
+The pattern of wrapping a function in the `maybe` function and then
+setting a default value is so common there is a shortcut, `perhaps`. The
+default value is set with the `otherwise` parameter. This function will
+always return regular R values, not maybes.
+
+``` r
+safe_mean <- perhaps(mean, otherwise = 0)
+
+safe_mean(1:10)
+#> [1] 5.5
+safe_mean("hello")
+#> [1] 0
 ```
 
 We can combine multiple predicates with the `and`/`or` functions.
