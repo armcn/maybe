@@ -112,13 +112,13 @@
 <code class="sourceCode R"><span class="fu">safe_divide</span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt; Just</span>
 <span class="co">#&gt; [1] -1</span>
-<span class="fu">safe_divide</span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span> |&gt; <span class="fu">map_maybe</span><span class="op">(</span><span class="va">abs</span><span class="op">)</span>
+<span class="fu">safe_divide</span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span> |&gt; <span class="fu"><a href="reference/map_maybe.html">map_maybe</a></span><span class="op">(</span><span class="va">abs</span><span class="op">)</span>
 <span class="co">#&gt; Just</span>
 <span class="co">#&gt; [1] 1</span>
 
 <span class="fu">safe_divide</span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">0</span><span class="op">)</span>
 <span class="co">#&gt; Nothing</span>
-<span class="fu">safe_divide</span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">0</span><span class="op">)</span> |&gt; <span class="fu">map_maybe</span><span class="op">(</span><span class="va">abs</span><span class="op">)</span>
+<span class="fu">safe_divide</span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">0</span><span class="op">)</span> |&gt; <span class="fu"><a href="reference/map_maybe.html">map_maybe</a></span><span class="op">(</span><span class="va">abs</span><span class="op">)</span>
 <span class="co">#&gt; Nothing</span></code></pre></div>
 <p>What if we wanted to chain multiple “safe” functions (functions that return maybe values) together? For that we use <code>and_then</code>. This function is often called <code>bind</code> in other languages. First let’s define two “safe” functions then call them one after the other.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -130,7 +130,7 @@
   <span class="kw">if</span> <span class="op">(</span><span class="va">a</span> <span class="op">==</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="fu">nothing</span><span class="op">(</span><span class="op">)</span> <span class="kw">else</span> <span class="fu">just</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span>
 
-<span class="fu">safe_mean</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> |&gt; <span class="fu">and_then</span><span class="op">(</span><span class="va">safe_sqrt</span><span class="op">)</span>
+<span class="fu">safe_mean</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> |&gt; <span class="fu"><a href="reference/and_then.html">and_then</a></span><span class="op">(</span><span class="va">safe_sqrt</span><span class="op">)</span>
 <span class="co">#&gt; Just</span>
 <span class="co">#&gt; [1] 2.345208</span></code></pre></div>
 <p>Functions can also be converted to “safe” functions in another way. Instead of rewriting the function we can wrap it in the function <code>maybe</code>. This will modify the function to return <code>Nothing</code> on error or warning and we can optionally provide a predicate function (a function that returns <code>TRUE</code> or <code>FALSE</code>) to assert something about the result. For example here are the above functions made “safe” with the <code>maybe</code> function.</p>
@@ -138,9 +138,9 @@
 <code class="sourceCode R"><span class="va">safe_mean</span> <span class="op">&lt;-</span> <span class="fu">maybe</span><span class="op">(</span><span class="va">mean</span>, result <span class="op">=</span> <span class="va">not_nan</span><span class="op">)</span>
 <span class="va">safe_sqrt</span> <span class="op">&lt;-</span> <span class="fu">maybe</span><span class="op">(</span><span class="va">sqrt</span>, result <span class="op">=</span> <span class="va">not_infinite</span><span class="op">)</span>
 
-<span class="fu">safe_mean</span><span class="op">(</span><span class="st">"hello"</span><span class="op">)</span> |&gt; <span class="fu">and_then</span><span class="op">(</span><span class="va">safe_sqrt</span><span class="op">)</span>
+<span class="fu">safe_mean</span><span class="op">(</span><span class="st">"hello"</span><span class="op">)</span> |&gt; <span class="fu"><a href="reference/and_then.html">and_then</a></span><span class="op">(</span><span class="va">safe_sqrt</span><span class="op">)</span>
 <span class="co">#&gt; Nothing</span>
-<span class="fu">safe_mean</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> |&gt; <span class="fu">and_then</span><span class="op">(</span><span class="va">safe_sqrt</span><span class="op">)</span>
+<span class="fu">safe_mean</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> |&gt; <span class="fu"><a href="reference/and_then.html">and_then</a></span><span class="op">(</span><span class="va">safe_sqrt</span><span class="op">)</span>
 <span class="co">#&gt; Just</span>
 <span class="co">#&gt; [1] 2.345208</span></code></pre></div>
 <p>It will automatically capture errors and warnings and return <code>Nothing</code>. Warnings can be allowed by setting <code>allow_warnings = TRUE</code>.</p>
@@ -182,6 +182,21 @@
 <span class="co">#&gt; [1] 2</span>
 <span class="fu">safe_mean</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Nothing</span></code></pre></div>
+<p>The names of <code>map_maybe</code>, <code>and_then</code>, <code>flatten_maybe</code>, and <code>with_default</code> are different than the traditional function names in other FP languages. I believe these names more clearly articulate the purpose of these functions but aliases are provided. In a single project please choose to use one set or the other, not both.</p>
+<ul>
+<li>
+<code>fmap</code> == <code>map_maybe</code>
+</li>
+<li>
+<code>join</code> == <code>flatten_maybe</code>
+</li>
+<li>
+<code>bind</code> == <code>and_then</code>
+</li>
+<li>
+<code>from_maybe</code> == <code>with_default</code>
+</li>
+</ul>
 </div>
 
   </main><aside class="col-md-3"><div class="license">

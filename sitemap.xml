@@ -10,6 +10,15 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/and_then.html</loc>
+  </url>
+  <url>
+    <loc>/reference/flatten_maybe.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/map_maybe.html</loc>
   </url>
 </urlset>
