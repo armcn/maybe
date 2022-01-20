@@ -194,3 +194,14 @@ safe_mean(c(1, 2, 3))
 safe_mean(c(NA, 2, 3))
 #> Nothing
 ```
+
+The names of `map_maybe`, `and_then`, `flatten_maybe`, and
+`with_default` are different than the traditional function names in
+other FP languages. I believe these names more clearly articulate the
+purpose of these functions but aliases are provided. In a single project
+please choose to use one set or the other, not both.
+
+-   `fmap` == `map_maybe`
+-   `join` == `flatten_maybe`
+-   `bind` == `and_then`
+-   `from_maybe` == `with_default`

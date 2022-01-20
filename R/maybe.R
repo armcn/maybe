@@ -55,20 +55,29 @@ perhaps <- function(.f,
       with_default(default = otherwise)
 }
 
-fmap <- function(.m, .f, ...) {
-  UseMethod("fmap", .m)
+#' Evaluate a function on a maybe value
+#'
+#' @export
+map_maybe <- function(.m, .f, ...) {
+  UseMethod("map_maybe", .m)
 }
 
-bind <- function(.m, .f, ...) {
-  UseMethod("bind", .m)
+#' Evaluate a maybe producing function on a maybe value
+#'
+#' @export
+and_then <- function(.m, .f, ...) {
+  UseMethod("and_then", .m)
 }
 
-join <- function(.m, .f, ...) {
-  UseMethod("join", .m)
+#' Flatten a nested maybe value
+#'
+#' @export
+flatten_maybe <- function(.m, .f, ...) {
+  UseMethod("flatten_maybe", .m)
 }
 
 #' @export
-fmap.maybe <- function(.m, .f, ...) {
+map_maybe.maybe <- function(.m, .f, ...) {
   if (is_just(.m))
     just(.f(.m$content, ...))
 
@@ -77,7 +86,7 @@ fmap.maybe <- function(.m, .f, ...) {
 }
 
 #' @export
-join.maybe <- function(.m) {
+flatten_maybe.maybe <- function(.m) {
   if (is_just(.m) && is_maybe(.m$content))
     .m$content
 
@@ -86,12 +95,12 @@ join.maybe <- function(.m) {
 }
 
 #' @export
-bind.maybe <- function(.m, .f, ...) {
-  join(fmap(.m, .f, ...))
+and_then.maybe <- function(.m, .f, ...) {
+  flatten_maybe(map_maybe(.m, .f, ...))
 }
 
 #' @export
-from_maybe <- function(.m, default) {
+with_default <- function(.m, default) {
   if (is_just(.m))
     .m$content
 
@@ -99,14 +108,21 @@ from_maybe <- function(.m, default) {
     default
 }
 
+#' @rdname map_maybe
 #' @export
-map_maybe <- fmap
+fmap <- map_maybe
 
+#' @rdname
 #' @export
-and_then <- bind
+join <- flatten_maybe
 
+#' @rdname and_then
 #' @export
-with_default <- from_maybe
+bind <- and_then
+
+#' @rdname with_default
+#' @export
+from_maybe <- with_default
 
 #' @export
 print.maybe <- function(x, ...) {
