@@ -135,8 +135,8 @@
 <span class="co">#&gt; [1] 2.345208</span></code></pre></div>
 <p>Functions can also be converted to “safe” functions in another way. Instead of rewriting the function we can wrap it in the function <code>maybe</code>. This will modify the function to return <code>Nothing</code> on error or warning and we can optionally provide a predicate function (a function that returns <code>TRUE</code> or <code>FALSE</code>) to assert something about the result. For example here are the above functions made “safe” with the <code>maybe</code> function.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">safe_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/maybe.html">maybe</a></span><span class="op">(</span><span class="va">mean</span>, result <span class="op">=</span> <span class="va">not_nan</span><span class="op">)</span>
-<span class="va">safe_sqrt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/maybe.html">maybe</a></span><span class="op">(</span><span class="va">sqrt</span>, result <span class="op">=</span> <span class="va">not_infinite</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">safe_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/maybe.html">maybe</a></span><span class="op">(</span><span class="va">mean</span>, ensure <span class="op">=</span> <span class="va">not_nan</span><span class="op">)</span>
+<span class="va">safe_sqrt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/maybe.html">maybe</a></span><span class="op">(</span><span class="va">sqrt</span>, ensure <span class="op">=</span> <span class="va">not_infinite</span><span class="op">)</span>
 
 <span class="fu">safe_mean</span><span class="op">(</span><span class="st">"hello"</span><span class="op">)</span> |&gt; <span class="fu"><a href="reference/and_then.html">and_then</a></span><span class="op">(</span><span class="va">safe_sqrt</span><span class="op">)</span>
 <span class="co">#&gt; Nothing</span>
@@ -148,8 +148,7 @@
 <code class="sourceCode R"><span class="va">safe_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/maybe.html">maybe</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span>
 
 <span class="fu">safe_mean</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>
-<span class="co">#&gt; Just</span>
-<span class="co">#&gt; [1] 5.5</span>
+<span class="co">#&gt; Nothing</span>
 <span class="fu">safe_mean</span><span class="op">(</span><span class="st">"hello"</span><span class="op">)</span>
 <span class="co">#&gt; Nothing</span>
 
@@ -163,19 +162,19 @@
 <code class="sourceCode R"><span class="va">safe_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/perhaps.html">perhaps</a></span><span class="op">(</span><span class="va">mean</span>, otherwise <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 
 <span class="fu">safe_mean</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>
-<span class="co">#&gt; [1] 5.5</span>
+<span class="co">#&gt; [1] 0</span>
 <span class="fu">safe_mean</span><span class="op">(</span><span class="st">"hello"</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0</span></code></pre></div>
 <p>We can combine multiple predicates with the <code>and</code>/<code>or</code> functions.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">safe_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/maybe.html">maybe</a></span><span class="op">(</span><span class="va">mean</span>, result <span class="op">=</span> <span class="fu"><a href="reference/and.html">and</a></span><span class="op">(</span><span class="va">not_nan</span>, <span class="va">not_empty</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">safe_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/maybe.html">maybe</a></span><span class="op">(</span><span class="va">mean</span>, ensure <span class="op">=</span> <span class="fu"><a href="reference/and.html">and</a></span><span class="op">(</span><span class="va">not_nan</span>, <span class="va">not_empty</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu">safe_mean</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>
 <span class="co">#&gt; Just</span>
 <span class="co">#&gt; [1] 5.5</span></code></pre></div>
 <p>Or use predefined combinations like <code>not_undefined</code> which checks if the output is not any of <code>NULL</code>, <code>NA</code>, <code>NaN</code>, <code>-Inf</code>, or <code>Inf</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">safe_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/maybe.html">maybe</a></span><span class="op">(</span><span class="va">mean</span>, result <span class="op">=</span> <span class="va">not_undefined</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">safe_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/maybe.html">maybe</a></span><span class="op">(</span><span class="va">mean</span>, ensure <span class="op">=</span> <span class="va">not_undefined</span><span class="op">)</span>
 
 <span class="fu">safe_mean</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Just</span>
