@@ -10,6 +10,9 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/and.html</loc>
+  </url>
+  <url>
     <loc>/reference/and_then.html</loc>
   </url>
   <url>
@@ -19,6 +22,51 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
+    <loc>/reference/is_just.html</loc>
+  </url>
+  <url>
+    <loc>/reference/is_maybe.html</loc>
+  </url>
+  <url>
+    <loc>/reference/is_nothing.html</loc>
+  </url>
+  <url>
+    <loc>/reference/just.html</loc>
+  </url>
+  <url>
     <loc>/reference/map_maybe.html</loc>
+  </url>
+  <url>
+    <loc>/reference/maybe.html</loc>
+  </url>
+  <url>
+    <loc>/reference/not_empty.html</loc>
+  </url>
+  <url>
+    <loc>/reference/not_infinite.html</loc>
+  </url>
+  <url>
+    <loc>/reference/not_na.html</loc>
+  </url>
+  <url>
+    <loc>/reference/not_nan.html</loc>
+  </url>
+  <url>
+    <loc>/reference/not_null.html</loc>
+  </url>
+  <url>
+    <loc>/reference/not_undefined.html</loc>
+  </url>
+  <url>
+    <loc>/reference/nothing.html</loc>
+  </url>
+  <url>
+    <loc>/reference/or.html</loc>
+  </url>
+  <url>
+    <loc>/reference/perhaps.html</loc>
+  </url>
+  <url>
+    <loc>/reference/with_default.html</loc>
   </url>
 </urlset>

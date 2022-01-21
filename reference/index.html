@@ -41,9 +41,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="maybe">Maybe<a class="anchor" aria-label="anchor" href="#maybe"></a></h2>
       
-      
+      <p class="section-desc"></p><p>Functions to work with maybe values.</p>
 
       
     </div><div id="" class="section level2">
@@ -53,21 +53,113 @@
 
       <dl><dt>
           
-          <code><a href="and_then.html">and_then()</a></code> <code><a href="and_then.html">bind()</a></code> 
+          <code><a href="just.html">just()</a></code> 
         </dt>
-        <dd>Evaluate a maybe producing function on a maybe value</dd>
+        <dd>Create a 'Just' variant of a maybe value</dd>
       </dl><dl><dt>
           
-          <code><a href="flatten_maybe.html">flatten_maybe()</a></code> 
+          <code><a href="nothing.html">nothing()</a></code> 
         </dt>
-        <dd>Flatten a nested maybe value</dd>
+        <dd>Create a 'Nothing' variant of a maybe value</dd>
+      </dl><dl><dt>
+          
+          <code><a href="maybe.html">maybe()</a></code> 
+        </dt>
+        <dd>Modify a function to return a maybe value</dd>
+      </dl><dl><dt>
+          
+          <code><a href="perhaps.html">perhaps()</a></code> 
+        </dt>
+        <dd>Modify a function to return a default value</dd>
       </dl><dl><dt>
           
           <code><a href="map_maybe.html">map_maybe()</a></code> <code><a href="map_maybe.html">fmap()</a></code> 
         </dt>
         <dd>Evaluate a function on a maybe value</dd>
+      </dl><dl><dt>
+          
+          <code><a href="and_then.html">and_then()</a></code> <code><a href="and_then.html">bind()</a></code> 
+        </dt>
+        <dd>Evaluate a maybe producing function on a maybe value</dd>
+      </dl><dl><dt>
+          
+          <code><a href="flatten_maybe.html">flatten_maybe()</a></code> <code><a href="flatten_maybe.html">join()</a></code> 
+        </dt>
+        <dd>Flatten a nested maybe value</dd>
+      </dl><dl><dt>
+          
+          <code><a href="with_default.html">with_default()</a></code> <code><a href="with_default.html">from_maybe()</a></code> 
+        </dt>
+        <dd>Unwrap a maybe value and return a default for 'Nothing'</dd>
+      </dl></div><div class="section level2">
+      <h2 id="predicates">Predicates<a class="anchor" aria-label="anchor" href="#predicates"></a></h2>
+      
+      <p class="section-desc"></p><p>Predicate functions to assert properties of a return value.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="is_just.html">is_just()</a></code> 
+        </dt>
+        <dd>Check if an object is a just value</dd>
+      </dl><dl><dt>
+          
+          <code><a href="is_nothing.html">is_nothing()</a></code> 
+        </dt>
+        <dd>Check if an object is a nothing value</dd>
+      </dl><dl><dt>
+          
+          <code><a href="is_maybe.html">is_maybe()</a></code> 
+        </dt>
+        <dd>Check if an object is a maybe value</dd>
+      </dl><dl><dt>
+          
+          <code><a href="not_empty.html">not_empty()</a></code> 
+        </dt>
+        <dd>Check if a vector or data frame is empty</dd>
+      </dl><dl><dt>
+          
+          <code><a href="not_null.html">not_null()</a></code> 
+        </dt>
+        <dd>Check if an object is NULL</dd>
+      </dl><dl><dt>
+          
+          <code><a href="not_na.html">not_na()</a></code> 
+        </dt>
+        <dd>Check if an object is NA</dd>
+      </dl><dl><dt>
+          
+          <code><a href="not_nan.html">not_nan()</a></code> 
+        </dt>
+        <dd>Check if an object is NaN</dd>
+      </dl><dl><dt>
+          
+          <code><a href="not_infinite.html">not_infinite()</a></code> 
+        </dt>
+        <dd>Check if an object is infinite</dd>
+      </dl><dl><dt>
+          
+          <code><a href="not_undefined.html">not_undefined()</a></code> 
+        </dt>
+        <dd>Check if an object is undefined</dd>
+      </dl><dl><dt>
+          
+          <code><a href="and.html">and()</a></code> 
+        </dt>
+        <dd>Combine predicate functions with <code>&amp;&amp;</code></dd>
+      </dl><dl><dt>
+          
+          <code><a href="or.html">or()</a></code> 
+        </dt>
+        <dd>Combine predicate functions with <code>||</code></dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
