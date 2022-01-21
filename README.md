@@ -129,8 +129,8 @@ For example here are the above functions made “safe” with the `maybe`
 function.
 
 ``` r
-safe_mean <- maybe(mean, result = not_nan)
-safe_sqrt <- maybe(sqrt, result = not_infinite)
+safe_mean <- maybe(mean, ensure = not_nan)
+safe_sqrt <- maybe(sqrt, ensure = not_infinite)
 
 safe_mean("hello") |> and_then(safe_sqrt)
 #> Nothing
@@ -146,8 +146,7 @@ Warnings can be allowed by setting `allow_warnings = TRUE`.
 safe_mean <- maybe(mean)
 
 safe_mean(1:10)
-#> Just
-#> [1] 5.5
+#> Nothing
 safe_mean("hello")
 #> Nothing
 
@@ -167,7 +166,7 @@ always return regular R values, not maybes.
 safe_mean <- perhaps(mean, otherwise = 0)
 
 safe_mean(1:10)
-#> [1] 5.5
+#> [1] 0
 safe_mean("hello")
 #> [1] 0
 ```
@@ -175,7 +174,7 @@ safe_mean("hello")
 We can combine multiple predicates with the `and`/`or` functions.
 
 ``` r
-safe_mean <- maybe(mean, result = and(not_nan, not_empty))
+safe_mean <- maybe(mean, ensure = and(not_nan, not_empty))
 
 safe_mean(1:10)
 #> Just
@@ -186,7 +185,7 @@ Or use predefined combinations like `not_undefined` which checks if the
 output is not any of `NULL`, `NA`, `NaN`, `-Inf`, or `Inf`.
 
 ``` r
-safe_mean <- maybe(mean, result = not_undefined)
+safe_mean <- maybe(mean, ensure = not_undefined)
 
 safe_mean(c(1, 2, 3))
 #> Just

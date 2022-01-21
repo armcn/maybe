@@ -24,7 +24,7 @@ nothing <- function() {
 #' Modify a function to return a maybe value
 #'
 #' @export
-maybe <- function(.f, allow_warning = FALSE, result = \() TRUE) {
+maybe <- function(.f, allow_warning = FALSE, ensure = \() TRUE) {
   \(...) {
     on_warning <-
       \(w)
@@ -39,17 +39,17 @@ maybe <- function(.f, allow_warning = FALSE, result = \() TRUE) {
 
     eval_f <-
       \(...) {
-        res <-
+        result <-
           .f(...)
 
         assertion_failed <-
-          \(a) !isTRUE(result(a))
+          \(a) !isTRUE(ensure(a))
 
-        if (assertion_failed(res))
+        if (assertion_failed(result))
           nothing()
 
         else
-          just(res)
+          just(result)
       }
 
     tryCatch(
@@ -66,9 +66,9 @@ maybe <- function(.f, allow_warning = FALSE, result = \() TRUE) {
 perhaps <- function(.f,
                     otherwise,
                     allow_warning = FALSE,
-                    result = \() TRUE) {
+                    ensure = \() TRUE) {
   \(...)
-    maybe(.f, allow_warning = allow_warning, result = result)(...) |>
+    maybe(.f, allow_warning = allow_warning, ensure = ensure)(...) |>
       with_default(default = otherwise)
 }
 
