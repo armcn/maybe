@@ -3,12 +3,29 @@
 \name{and_then}
 \alias{and_then}
 \alias{bind}
-\title{Evaluate a maybe producing function on a maybe value}
+\title{Evaluate a maybe returning function on a maybe value}
 \usage{
 and_then(.m, .f, ...)
 
 bind(.m, .f, ...)
 }
+\arguments{
+\item{.m}{A maybe value}
+
+\item{.f}{A maybe returning function to apply to the maybe value}
+
+\item{...}{Named arguments for the function \code{.f}}
+}
+\value{
+A maybe value
+}
 \description{
-Evaluate a maybe producing function on a maybe value
+Evaluate a maybe returning function on a maybe value
+}
+\examples{
+safe_sqrt <- maybe(sqrt, ensure = not_infinite)
+
+just(9) |> and_then(safe_sqrt)
+just(-1) |> and_then(safe_sqrt)
+nothing() |> and_then(safe_sqrt)
 }

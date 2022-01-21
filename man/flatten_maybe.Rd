@@ -5,10 +5,22 @@
 \alias{join}
 \title{Flatten a nested maybe value}
 \usage{
-flatten_maybe(.m, .f, ...)
+flatten_maybe(.m)
 
-join(.m, .f, ...)
+join(.m)
+}
+\arguments{
+\item{.m}{A maybe value}
+}
+\value{
+A maybe value
 }
 \description{
 Flatten a nested maybe value
+}
+\examples{
+just(just(1)) |> flatten_maybe()
+just(nothing()) |> flatten_maybe()
+just(1) |> flatten_maybe()
+nothing() |> flatten_maybe()
 }

@@ -123,7 +123,7 @@ not_infinite <- function(a) {
 #' In this case 'undefined' values include `NULL`, `NaN`, all `NA` variants,
 #' and infinite values.
 #'
-#' @param a
+#' @param a Object to check
 #'
 #' @examples
 #' not_undefined(NA)

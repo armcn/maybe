@@ -9,6 +9,18 @@ with_default(.m, default)
 
 from_maybe(.m, default)
 }
+\arguments{
+\item{.m}{A maybe value}
+
+\item{default}{A default value to return if the maybe value is 'Nothing'}
+}
+\value{
+The unwrapped maybe value or the default value
+}
 \description{
 Unwrap a maybe value and return a default for 'Nothing'
+}
+\examples{
+just(1) |> with_default(default = 0)
+nothing() |> with_default(default = 0)
 }

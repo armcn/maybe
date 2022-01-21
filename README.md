@@ -146,7 +146,8 @@ Warnings can be allowed by setting `allow_warnings = TRUE`.
 safe_mean <- maybe(mean)
 
 safe_mean(1:10)
-#> Nothing
+#> Just
+#> [1] 5.5
 safe_mean("hello")
 #> Nothing
 
@@ -154,19 +155,20 @@ safe_mean <- maybe(mean, allow_warning = TRUE)
 
 safe_mean("hello")
 #> Warning in mean.default(...): argument is not numeric or logical: returning NA
+#> Just
 #> [1] NA
 ```
 
 The pattern of wrapping a function in the `maybe` function and then
 setting a default value is so common there is a shortcut, `perhaps`. The
-default value is set with the `otherwise` parameter. This function will
+default value is set with the `default` parameter. This function will
 always return regular R values, not maybes.
 
 ``` r
-safe_mean <- perhaps(mean, otherwise = 0)
+safe_mean <- perhaps(mean, default = 0)
 
 safe_mean(1:10)
-#> [1] 0
+#> [1] 5.5
 safe_mean("hello")
 #> [1] 0
 ```

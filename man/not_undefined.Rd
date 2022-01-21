@@ -7,7 +7,7 @@
 not_undefined(a)
 }
 \arguments{
-\item{a}{}
+\item{a}{Object to check}
 }
 \value{
 \code{TRUE} or \code{FALSE}

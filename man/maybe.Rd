@@ -4,8 +4,30 @@
 \alias{maybe}
 \title{Modify a function to return a maybe value}
 \usage{
-maybe(.f, allow_warning = FALSE, result = function() TRUE)
+maybe(.f, allow_warning = FALSE, ensure = function(a) TRUE)
+}
+\arguments{
+\item{.f}{A function to modify}
+
+\item{allow_warning}{Whether warnings should result in 'Nothing' values}
+
+\item{ensure}{A predicate function}
+}
+\value{
+A function which returns maybe values
 }
 \description{
-Modify a function to return a maybe value
+Wrapping a function in \code{maybe} will modify it to return a maybe value. If
+the function would normally return an error or warning the modified function
+will return a 'Nothing' value, otherwise it will return a 'Just' value.
+If a predicate function is provided with the parameter \code{ensure}, if the
+predicate returns \code{FALSE} when called on the return value of the function,
+then a 'Nothing' value will be returned by the modified function, otherwise
+it will return a 'Just' value.
+}
+\examples{
+maybe(mean)(1:10)
+maybe(mean, allow_warning = FALSE)("hello")
+maybe(sqrt)("hello")
+maybe(sqrt, ensure = not_infinite)(-1)
 }

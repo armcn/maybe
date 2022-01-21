@@ -2,10 +2,35 @@
 % Please edit documentation in R/maybe.R
 \name{perhaps}
 \alias{perhaps}
-\title{Modify a function to return a default value}
+\title{Modify a function to return the value or a default value}
 \usage{
-perhaps(.f, otherwise, allow_warning = FALSE, result = function() TRUE)
+perhaps(.f, default, allow_warning = FALSE, ensure = function(a) TRUE)
+}
+\arguments{
+\item{.f}{A function to modify}
+
+\item{default}{A default value}
+
+\item{allow_warning}{Whether warnings should result in the default value}
+
+\item{ensure}{A predicate function}
+}
+\value{
+A function which returns the expected value or the default value
 }
 \description{
-Modify a function to return a default value
+Wrapping a function in \code{perhaps} will modify it to return the expected value
+or a default value in some circumstances. If the function would normally
+return an error or warning the modified function will return a default value,
+otherwise it will return the expected value. If a predicate function is
+provided with the parameter \code{ensure}, if the predicate returns \code{FALSE} when
+called on the return value of the function, then a default value will be
+returned by the modified function, otherwise it will return the expected
+value.
+}
+\examples{
+perhaps(mean, default = 0)(1:10)
+perhaps(mean, default = 0, allow_warning = TRUE)("hello")
+perhaps(sqrt, default = 0)("hello")
+perhaps(sqrt, default = 0, ensure = not_infinite)(-1)
 }
