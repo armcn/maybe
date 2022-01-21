@@ -48,13 +48,37 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">flatten_maybe</span><span class="op">(</span><span class="va">.m</span>, <span class="va">.f</span>, <span class="va">...</span><span class="op">)</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">flatten_maybe</span><span class="op">(</span><span class="va">.m</span><span class="op">)</span>
 
-<span class="fu">join</span><span class="op">(</span><span class="va">.m</span>, <span class="va">.f</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+<span class="fu">join</span><span class="op">(</span><span class="va">.m</span><span class="op">)</span></code></pre></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <dl><dt>.m</dt>
+<dd><p>A maybe value</p></dd>
+</dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A maybe value</p>
+    </div>
 
-  </main></div>
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="just.html">just</a></span><span class="op">(</span><span class="fu"><a href="just.html">just</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span> |&gt; <span class="fu">flatten_maybe</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Just</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-in"><span class="fu"><a href="just.html">just</a></span><span class="op">(</span><span class="fu"><a href="nothing.html">nothing</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> |&gt; <span class="fu">flatten_maybe</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Nothing</span>
+<span class="r-in"><span class="fu"><a href="just.html">just</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> |&gt; <span class="fu">flatten_maybe</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Just</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-in"><span class="fu"><a href="nothing.html">nothing</a></span><span class="op">(</span><span class="op">)</span> |&gt; <span class="fu">flatten_maybe</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Nothing</span>
+</code></pre></div>
+    </div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

@@ -53,8 +53,28 @@
 <span class="fu">from_maybe</span><span class="op">(</span><span class="va">.m</span>, <span class="va">default</span><span class="op">)</span></code></pre></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <dl><dt>.m</dt>
+<dd><p>A maybe value</p></dd>
+<dt>default</dt>
+<dd><p>A default value to return if the maybe value is 'Nothing'</p></dd>
+</dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>The unwrapped maybe value or the default value</p>
+    </div>
 
-  </main></div>
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="just.html">just</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> |&gt; <span class="fu">with_default</span><span class="op">(</span>default <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-in"><span class="fu"><a href="nothing.html">nothing</a></span><span class="op">(</span><span class="op">)</span> |&gt; <span class="fu">with_default</span><span class="op">(</span>default <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+</code></pre></div>
+    </div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
