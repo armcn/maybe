@@ -1,15 +1,30 @@
+#' Create a 'Just' variant of a maybe value
+#'
+#' @param a A value to wrap in a 'Just'
+#'
+#' @examples
+#' just(1)
+#' just("hello")
+#' @return A 'Just' variant of a maybe value
 #' @export
 just <- function(a) {
   as_maybe(list(type = "just", content = a))
 }
 
+#' Create a 'Nothing' variant of a maybe value
+#'
+#' @examples
+#' nothing()
+#' @return A 'Nothing' variant of a maybe value
 #' @export
 nothing <- function() {
   as_maybe(list(type = "nothing"))
 }
 
+#' Modify a function to return a maybe value
+#'
 #' @export
-maybe <- function(.f, allow_warning = FALSE, result = not_undefined) {
+maybe <- function(.f, allow_warning = FALSE, result = \() TRUE) {
   \(...) {
     on_warning <-
       \(w)
@@ -45,11 +60,13 @@ maybe <- function(.f, allow_warning = FALSE, result = not_undefined) {
   }
 }
 
+#' Modify a function to return a default value
+#'
 #' @export
 perhaps <- function(.f,
                     otherwise,
                     allow_warning = FALSE,
-                    result = not_undefined) {
+                    result = \() TRUE) {
   \(...)
     maybe(.f, allow_warning = allow_warning, result = result)(...) |>
       with_default(default = otherwise)
@@ -99,6 +116,8 @@ and_then.maybe <- function(.m, .f, ...) {
   flatten_maybe(map_maybe(.m, .f, ...))
 }
 
+#' Unwrap a maybe value and return a default for 'Nothing'
+#'
 #' @export
 with_default <- function(.m, default) {
   if (is_just(.m))
@@ -112,7 +131,7 @@ with_default <- function(.m, default) {
 #' @export
 fmap <- map_maybe
 
-#' @rdname
+#' @rdname flatten_maybe
 #' @export
 join <- flatten_maybe
 

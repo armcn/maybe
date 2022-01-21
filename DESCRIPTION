@@ -15,4 +15,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Depends: R (>= 4.1.0)
 Suggests: 
-    covr
+    testthat (>= 3.0.0),
+    covr,
+    quickcheck
+Config/testthat/edition: 3

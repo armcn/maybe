@@ -1,20 +1,58 @@
+#' Check if an object is a maybe value
+#'
+#' @param a Object to check
+#'
+#' @examples
+#' is_maybe(1)
+#' is_maybe(just(1))
+#' is_maybe(nothing())
+#' @return `TRUE` or `FALSE`
 #' @export
-is_maybe <- function(.m) {
-  class(.m) == "maybe"
+is_maybe <- function(a) {
+  identical(class(a), "maybe")
 }
 
+#' Check if an object is a just value
+#'
+#' @param a Object to check
+#'
+#' @examples
+#' is_just(1)
+#' is_just(just(1))
+#' is_just(nothing())
+#' @return `TRUE` or `FALSE`
 #' @export
-is_just <- function(.m) {
-  is_maybe(.m) && .m$type == "just"
+is_just <- function(a) {
+  is_maybe(a) && isTRUE(a$type == "just")
 }
 
+#' Check if an object is a nothing value
+#'
+#' @param a Object to check
+#'
+#' @examples
+#' is_nothing(1)
+#' is_nothing(just(1))
+#' is_nothing(nothing())
+#' @return `TRUE` or `FALSE`
 #' @export
-is_nothing <- function(.m) {
-  is_maybe(.m) && .m$type == "nothing"
+is_nothing <- function(a) {
+  is_maybe(a) && isTRUE(a$type == "nothing")
 }
 
+#' Check if a vector or data frame is empty
+#'
+#' @param a Object to check
+#'
+#' @examples
+#' not_empty(integer())
+#' not_empty(list())
+#' not_empty(1:10)
+#' not_empty(data.frame())
+#' not_empty(data.frame(a = 1:10))
+#' @return `TRUE` or `FALSE`
 #' @export
-not_empty <- function(a, ...) {
+not_empty <- function(a) {
   UseMethod("not_empty", a)
 }
 
@@ -28,26 +66,70 @@ not_empty.data.frame <- function(a) {
   isTRUE(nrow(a) != 0L)
 }
 
+#' Check if an object is NULL
+#'
+#' @param a Object to check
+#'
+#' @examples
+#' not_null(NULL)
+#' not_null(1)
+#' @return `TRUE` or `FALSE`
 #' @export
 not_null <- function(a) {
   !is.null(a)
 }
 
+#' Check if an object is NA
+#'
+#' @param a Object to check
+#'
+#' @examples
+#' not_na(NA)
+#' not_na(1)
+#' @return `TRUE` or `FALSE`
 #' @export
 not_na <- function(a) {
   !isTRUE(is.na(a))
 }
 
+#' Check if an object is NaN
+#'
+#' @param a Object to check
+#'
+#' @examples
+#' not_nan(NaN)
+#' not_nan(1)
+#' @return `TRUE` or `FALSE`
 #' @export
 not_nan <- function(a) {
-  !isTRUE(is.nan(a))
+  !isTRUE(is.atomic(a) && is.nan(a))
 }
 
+#' Check if an object is infinite
+#'
+#' @param a Object to check
+#'
+#' @examples
+#' not_infinite(Inf)
+#' not_infinite(1)
+#' @return `TRUE` or `FALSE`
 #' @export
 not_infinite <- function(a) {
-  !isTRUE(is.na(a))
+  !isTRUE(is.atomic(a) && is.infinite(a))
 }
 
+#' Check if an object is undefined
+#'
+#' In this case 'undefined' values include `NULL`, `NaN`, all `NA` variants,
+#' and infinite values.
+#'
+#' @param a
+#'
+#' @examples
+#' not_undefined(NA)
+#' not_undefined(NULL)
+#' not_undefined(1)
+#' @return `TRUE` or `FALSE`
 #' @export
 not_undefined <- function(a) {
   and(
@@ -58,21 +140,37 @@ not_undefined <- function(a) {
   )(a)
 }
 
+#' Combine predicate functions with `&&`
+#'
+#' @param ... Predicate functions
+#'
+#' @examples
+#' and(not_null, not_na)(1)
+#' and(not_null, not_na)(NULL)
+#' @return A predicate function
 #' @export
 and <- function(...) {
   \(b)
     Reduce(
-      f = \(acc, a) acc & a(b),
+      f = \(acc, a) acc && a(b),
       x = list(...),
       init = TRUE
     )
 }
 
+#' Combine predicate functions with `||`
+#'
+#' @param ... Predicate functions
+#'
+#' @examples
+#' or(not_null, not_na)(1)
+#' or(not_null, not_na)(NULL)
+#' @return A predicate function
 #' @export
 or <- function(...) {
   \(b)
     Reduce(
-      f = \(acc, a) acc | a(b),
+      f = \(acc, a) acc || a(b),
       x = list(...),
       init = FALSE
     )

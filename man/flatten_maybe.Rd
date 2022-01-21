@@ -2,9 +2,12 @@
 % Please edit documentation in R/maybe.R
 \name{flatten_maybe}
 \alias{flatten_maybe}
+\alias{join}
 \title{Flatten a nested maybe value}
 \usage{
 flatten_maybe(.m, .f, ...)
+
+join(.m, .f, ...)
 }
 \description{
 Flatten a nested maybe value

@@ -16,3 +16,29 @@ navbar:
       icon: fa-twitter
       href: http://twitter.com/ShinyD3js
       aria-label: Twitter
+reference:
+- title: Maybe
+  desc: Functions to work with maybe values.
+  contents:
+    - just
+    - nothing
+    - maybe
+    - perhaps
+    - map_maybe
+    - and_then
+    - flatten_maybe
+    - with_default
+- title: Predicates
+  desc: Predicate functions to assert properties of a return value.
+  contents:
+    - is_just
+    - is_nothing
+    - is_maybe
+    - not_empty
+    - not_null
+    - not_na
+    - not_nan
+    - not_infinite
+    - not_undefined
+    - and
+    - or
