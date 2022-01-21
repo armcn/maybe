@@ -2,7 +2,7 @@
 % Please edit documentation in R/predicates.R
 \name{and}
 \alias{and}
-\title{Combine predicate functions with \code{&&}}
+\title{Combine predicate functions to check if all are TRUE}
 \usage{
 and(...)
 }
@@ -13,7 +13,7 @@ and(...)
 A predicate function
 }
 \description{
-Combine predicate functions with \code{&&}
+Combine predicate functions to check if all are TRUE
 }
 \examples{
 and(not_null, not_na)(1)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/predicates.R
 \name{or}
 \alias{or}
-\title{Combine predicate functions with \code{||}}
+\title{Combine predicate functions to check if any are TRUE}
 \usage{
 or(...)
 }
@@ -13,7 +13,7 @@ or(...)
 A predicate function
 }
 \description{
-Combine predicate functions with \code{||}
+Combine predicate functions to check if any are TRUE
 }
 \examples{
 or(not_null, not_na)(1)

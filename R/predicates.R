@@ -23,7 +23,7 @@ is_maybe <- function(a) {
 #' @return `TRUE` or `FALSE`
 #' @export
 is_just <- function(a) {
-  is_maybe(a) && isTRUE(a$type == "just")
+  and(is_maybe, \(b) identical(b$type, "just"))(a)
 }
 
 #' Check if an object is a nothing value
@@ -37,7 +37,7 @@ is_just <- function(a) {
 #' @return `TRUE` or `FALSE`
 #' @export
 is_nothing <- function(a) {
-  is_maybe(a) && isTRUE(a$type == "nothing")
+  and(is_maybe, \(b) identical(b$type, "nothing"))(a)
 }
 
 #' Check if a vector or data frame is empty
@@ -76,7 +76,7 @@ not_empty.data.frame <- function(a) {
 #' @return `TRUE` or `FALSE`
 #' @export
 not_null <- function(a) {
-  !is.null(a)
+  Negate(is.null)(a)
 }
 
 #' Check if an object is NA
@@ -89,7 +89,7 @@ not_null <- function(a) {
 #' @return `TRUE` or `FALSE`
 #' @export
 not_na <- function(a) {
-  !isTRUE(is.na(a))
+  not_true(is.na(a))
 }
 
 #' Check if an object is NaN
@@ -102,7 +102,7 @@ not_na <- function(a) {
 #' @return `TRUE` or `FALSE`
 #' @export
 not_nan <- function(a) {
-  !isTRUE(is.atomic(a) && is.nan(a))
+  not_true(and(is.atomic, is.nan)(a))
 }
 
 #' Check if an object is infinite
@@ -115,7 +115,7 @@ not_nan <- function(a) {
 #' @return `TRUE` or `FALSE`
 #' @export
 not_infinite <- function(a) {
-  !isTRUE(is.atomic(a) && is.infinite(a))
+  not_true(and(is.atomic, is.infinite)(a))
 }
 
 #' Check if an object is undefined
@@ -140,7 +140,7 @@ not_undefined <- function(a) {
   )(a)
 }
 
-#' Combine predicate functions with `&&`
+#' Combine predicate functions to check if all are TRUE
 #'
 #' @param ... Predicate functions
 #'
@@ -150,15 +150,19 @@ not_undefined <- function(a) {
 #' @return A predicate function
 #' @export
 and <- function(...) {
-  \(b)
-    Reduce(
-      f = \(acc, a) acc && a(b),
-      x = list(...),
-      init = TRUE
-    )
+  funs <-
+    list(...)
+
+  \(a) {
+    for (i in seq_along(funs))
+      if (!isTRUE(funs[[i]](a)))
+        return(FALSE)
+
+    TRUE
+  }
 }
 
-#' Combine predicate functions with `||`
+#' Combine predicate functions to check if any are TRUE
 #'
 #' @param ... Predicate functions
 #'
@@ -168,10 +172,18 @@ and <- function(...) {
 #' @return A predicate function
 #' @export
 or <- function(...) {
-  \(b)
-    Reduce(
-      f = \(acc, a) acc || a(b),
-      x = list(...),
-      init = FALSE
-    )
+  funs <-
+    list(...)
+
+  \(a) {
+    for (i in seq_along(funs))
+      if (isTRUE(funs[[i]](a)))
+        return(TRUE)
+
+    FALSE
+  }
+}
+
+not_true <- function(a) {
+  Negate(isTRUE)(a)
 }

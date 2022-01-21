@@ -4,16 +4,16 @@
 \alias{perhaps}
 \title{Modify a function to return the value or a default value}
 \usage{
-perhaps(.f, default, allow_warning = FALSE, ensure = function(a) TRUE)
+perhaps(.f, default, ensure = function(a) TRUE, allow_warning = FALSE)
 }
 \arguments{
 \item{.f}{A function to modify}
 
 \item{default}{A default value}
 
-\item{allow_warning}{Whether warnings should result in the default value}
-
 \item{ensure}{A predicate function}
+
+\item{allow_warning}{Whether warnings should result in the default value}
 }
 \value{
 A function which returns the expected value or the default value

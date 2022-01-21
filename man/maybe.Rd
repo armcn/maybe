@@ -4,14 +4,14 @@
 \alias{maybe}
 \title{Modify a function to return a maybe value}
 \usage{
-maybe(.f, allow_warning = FALSE, ensure = function(a) TRUE)
+maybe(.f, ensure = function(a) TRUE, allow_warning = FALSE)
 }
 \arguments{
 \item{.f}{A function to modify}
 
-\item{allow_warning}{Whether warnings should result in 'Nothing' values}
-
 \item{ensure}{A predicate function}
+
+\item{allow_warning}{Whether warnings should result in 'Nothing' values}
 }
 \value{
 A function which returns maybe values
@@ -27,7 +27,7 @@ it will return a 'Just' value.
 }
 \examples{
 maybe(mean)(1:10)
-maybe(mean, allow_warning = FALSE)("hello")
+maybe(mean, allow_warning = TRUE)("hello")
 maybe(sqrt)("hello")
 maybe(sqrt, ensure = not_infinite)(-1)
 }

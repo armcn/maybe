@@ -5,8 +5,7 @@ Authors@R:
     person(given = "Andrew",
            family = "McNeil",
            role = c("aut", "cre"),
-           email = "andrew.richard.mcneil@gmail.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           email = "andrew.richard.mcneil@gmail.com")
 Description: The maybe monad in R.
 License: MIT + file LICENSE
 Encoding: UTF-8
