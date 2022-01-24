@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">maybe</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,10 +21,19 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
       <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/armcn/maybe/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li class="nav-item">
   <a class="external-link nav-link" href="http://twitter.com/ShinyD3js" aria-label="Twitter">
     <span class="fa fa-twitter"></span>
      
@@ -90,7 +99,7 @@
           
           <code><a href="with_default.html">with_default()</a></code> <code><a href="with_default.html">from_maybe()</a></code> 
         </dt>
-        <dd>Unwrap a maybe value and return a default for 'Nothing'</dd>
+        <dd>Unwrap a maybe value or return a default</dd>
       </dl></div><div class="section level2">
       <h2 id="predicates">Predicates<a class="anchor" aria-label="anchor" href="#predicates"></a></h2>
       
@@ -106,12 +115,12 @@
           
           <code><a href="is_just.html">is_just()</a></code> 
         </dt>
-        <dd>Check if an object is a just value</dd>
+        <dd>Check if an object is a 'Just' value</dd>
       </dl><dl><dt>
           
           <code><a href="is_nothing.html">is_nothing()</a></code> 
         </dt>
-        <dd>Check if an object is a nothing value</dd>
+        <dd>Check if an object is a 'Nothing' value</dd>
       </dl><dl><dt>
           
           <code><a href="is_maybe.html">is_maybe()</a></code> 
@@ -126,27 +135,27 @@
           
           <code><a href="not_null.html">not_null()</a></code> 
         </dt>
-        <dd>Check if an object is NULL</dd>
+        <dd>Check if an object is not NULL</dd>
       </dl><dl><dt>
           
           <code><a href="not_na.html">not_na()</a></code> 
         </dt>
-        <dd>Check if an object is NA</dd>
+        <dd>Check if an object is not NA</dd>
       </dl><dl><dt>
           
           <code><a href="not_nan.html">not_nan()</a></code> 
         </dt>
-        <dd>Check if an object is NaN</dd>
+        <dd>Check if an object is not NaN</dd>
       </dl><dl><dt>
           
           <code><a href="not_infinite.html">not_infinite()</a></code> 
         </dt>
-        <dd>Check if an object is infinite</dd>
+        <dd>Check if an object is not infinite</dd>
       </dl><dl><dt>
           
           <code><a href="not_undefined.html">not_undefined()</a></code> 
         </dt>
-        <dd>Check if an object is undefined</dd>
+        <dd>Check if an object is not undefined</dd>
       </dl><dl><dt>
           
           <code><a href="and.html">and()</a></code> 
