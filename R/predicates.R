@@ -12,7 +12,7 @@ is_maybe <- function(a) {
   identical(class(a), "maybe")
 }
 
-#' Check if an object is a just value
+#' Check if an object is a 'Just' value
 #'
 #' @param a Object to check
 #'
@@ -26,7 +26,7 @@ is_just <- function(a) {
   and(is_maybe, \(b) identical(b$type, "just"))(a)
 }
 
-#' Check if an object is a nothing value
+#' Check if an object is a 'Nothing' value
 #'
 #' @param a Object to check
 #'
@@ -66,7 +66,7 @@ not_empty.data.frame <- function(a) {
   isTRUE(nrow(a) != 0L)
 }
 
-#' Check if an object is NULL
+#' Check if an object is not NULL
 #'
 #' @param a Object to check
 #'
@@ -79,7 +79,7 @@ not_null <- function(a) {
   Negate(is.null)(a)
 }
 
-#' Check if an object is NA
+#' Check if an object is not NA
 #'
 #' @param a Object to check
 #'
@@ -92,7 +92,7 @@ not_na <- function(a) {
   not_true(is.na(a))
 }
 
-#' Check if an object is NaN
+#' Check if an object is not NaN
 #'
 #' @param a Object to check
 #'
@@ -105,7 +105,7 @@ not_nan <- function(a) {
   not_true(and(is.atomic, is.nan)(a))
 }
 
-#' Check if an object is infinite
+#' Check if an object is not infinite
 #'
 #' @param a Object to check
 #'
@@ -118,7 +118,7 @@ not_infinite <- function(a) {
   not_true(and(is.atomic, is.infinite)(a))
 }
 
-#' Check if an object is undefined
+#' Check if an object is not undefined
 #'
 #' In this case 'undefined' values include `NULL`, `NaN`, all `NA` variants,
 #' and infinite values.
@@ -155,7 +155,7 @@ and <- function(...) {
 
   \(a) {
     for (i in seq_along(funs))
-      if (!isTRUE(funs[[i]](a)))
+      if (not_true(funs[[i]](a)))
         return(FALSE)
 
     TRUE

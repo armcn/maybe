@@ -7,7 +7,7 @@
 just(a)
 }
 \arguments{
-\item{a}{A value to wrap in a 'Just'}
+\item{a}{A value to wrap in a 'Just' container}
 }
 \value{
 A 'Just' variant of a maybe value

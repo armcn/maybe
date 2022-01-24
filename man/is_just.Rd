@@ -2,7 +2,7 @@
 % Please edit documentation in R/predicates.R
 \name{is_just}
 \alias{is_just}
-\title{Check if an object is a just value}
+\title{Check if an object is a 'Just' value}
 \usage{
 is_just(a)
 }
@@ -13,7 +13,7 @@ is_just(a)
 \code{TRUE} or \code{FALSE}
 }
 \description{
-Check if an object is a just value
+Check if an object is a 'Just' value
 }
 \examples{
 is_just(1)

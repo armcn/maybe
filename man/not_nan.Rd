@@ -2,7 +2,7 @@
 % Please edit documentation in R/predicates.R
 \name{not_nan}
 \alias{not_nan}
-\title{Check if an object is NaN}
+\title{Check if an object is not NaN}
 \usage{
 not_nan(a)
 }
@@ -13,7 +13,7 @@ not_nan(a)
 \code{TRUE} or \code{FALSE}
 }
 \description{
-Check if an object is NaN
+Check if an object is not NaN
 }
 \examples{
 not_nan(NaN)

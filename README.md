@@ -10,13 +10,30 @@ status](https://www.r-pkg.org/badges/version/maybe)](https://CRAN.R-project.org/
 [![R-CMD-check](https://github.com/armcn/maybe/workflows/R-CMD-check/badge.svg)](https://github.com/armcn/maybe/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/armcn/maybe/branch/main/graph/badge.svg)](https://codecov.io/gh/armcn/maybe?branch=main)
+[![metacran
+downloads](https://cranlogs.r-pkg.org/badges/maybe)](https://cran.r-project.org/package=maybe)
 
 <!-- badges: end -->
 
+# Overview
+
+The maybe type represents the possibility of some value or nothing. It
+is often used instead of throwing an error or returning `NULL`. The
+advantage of using a maybe type over `NULL` is that it is both
+composable and requires the developer to explicitly acknowledge the
+potential absence of a value, helping to avoid the existence of
+unexpected behavior.
+
 ## Installation
 
-You can install the development version from
-[GitHub](https://github.com/) with:
+You can install the released version of maybe from
+[CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("maybe")
+```
+
+And the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")

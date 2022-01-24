@@ -2,7 +2,7 @@
 % Please edit documentation in R/predicates.R
 \name{not_infinite}
 \alias{not_infinite}
-\title{Check if an object is infinite}
+\title{Check if an object is not infinite}
 \usage{
 not_infinite(a)
 }
@@ -13,7 +13,7 @@ not_infinite(a)
 \code{TRUE} or \code{FALSE}
 }
 \description{
-Check if an object is infinite
+Check if an object is not infinite
 }
 \examples{
 not_infinite(Inf)

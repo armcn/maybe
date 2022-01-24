@@ -2,7 +2,7 @@
 % Please edit documentation in R/predicates.R
 \name{is_nothing}
 \alias{is_nothing}
-\title{Check if an object is a nothing value}
+\title{Check if an object is a 'Nothing' value}
 \usage{
 is_nothing(a)
 }
@@ -13,7 +13,7 @@ is_nothing(a)
 \code{TRUE} or \code{FALSE}
 }
 \description{
-Check if an object is a nothing value
+Check if an object is a 'Nothing' value
 }
 \examples{
 is_nothing(1)

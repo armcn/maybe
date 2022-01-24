@@ -1,6 +1,6 @@
 #' Create a 'Just' variant of a maybe value
 #'
-#' @param a A value to wrap in a 'Just'
+#' @param a A value to wrap in a 'Just' container
 #'
 #' @examples
 #' just(1)
@@ -27,7 +27,7 @@ nothing <- function() {
 #' the function would normally return an error or warning the modified function
 #' will return a 'Nothing' value, otherwise it will return a 'Just' value.
 #' If a predicate function is provided with the parameter `ensure`, if the
-#' predicate returns `FALSE` when called on the return value of the function,
+#' predicate returns `FALSE` when evaluated on the return value of the function,
 #' then a 'Nothing' value will be returned by the modified function, otherwise
 #' it will return a 'Just' value.
 #'
@@ -79,7 +79,7 @@ maybe <- function(.f, ensure = \(a) TRUE, allow_warning = FALSE) {
 #' return an error or warning the modified function will return a default value,
 #' otherwise it will return the expected value. If a predicate function is
 #' provided with the parameter `ensure`, if the predicate returns `FALSE` when
-#' called on the return value of the function, then a default value will be
+#' evaluated on the return value of the function, then a default value will be
 #' returned by the modified function, otherwise it will return the expected
 #' value.
 #'
@@ -184,7 +184,7 @@ flatten_maybe.maybe <- function(.m) {
 #' @export
 join <- flatten_maybe
 
-#' Unwrap a maybe value and return a default for 'Nothing'
+#' Unwrap a maybe value or return a default
 #'
 #' @param .m A maybe value
 #' @param default A default value to return if the maybe value is 'Nothing'

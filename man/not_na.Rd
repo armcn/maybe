@@ -2,7 +2,7 @@
 % Please edit documentation in R/predicates.R
 \name{not_na}
 \alias{not_na}
-\title{Check if an object is NA}
+\title{Check if an object is not NA}
 \usage{
 not_na(a)
 }
@@ -13,7 +13,7 @@ not_na(a)
 \code{TRUE} or \code{FALSE}
 }
 \description{
-Check if an object is NA
+Check if an object is not NA
 }
 \examples{
 not_na(NA)

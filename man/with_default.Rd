@@ -3,7 +3,7 @@
 \name{with_default}
 \alias{with_default}
 \alias{from_maybe}
-\title{Unwrap a maybe value and return a default for 'Nothing'}
+\title{Unwrap a maybe value or return a default}
 \usage{
 with_default(.m, default)
 
@@ -18,7 +18,7 @@ from_maybe(.m, default)
 The unwrapped maybe value or the default value
 }
 \description{
-Unwrap a maybe value and return a default for 'Nothing'
+Unwrap a maybe value or return a default
 }
 \examples{
 just(1) |> with_default(default = 0)

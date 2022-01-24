@@ -2,7 +2,7 @@
 % Please edit documentation in R/predicates.R
 \name{not_null}
 \alias{not_null}
-\title{Check if an object is NULL}
+\title{Check if an object is not NULL}
 \usage{
 not_null(a)
 }
@@ -13,7 +13,7 @@ not_null(a)
 \code{TRUE} or \code{FALSE}
 }
 \description{
-Check if an object is NULL
+Check if an object is not NULL
 }
 \examples{
 not_null(NULL)

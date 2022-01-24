@@ -2,7 +2,7 @@
 % Please edit documentation in R/predicates.R
 \name{not_undefined}
 \alias{not_undefined}
-\title{Check if an object is undefined}
+\title{Check if an object is not undefined}
 \usage{
 not_undefined(a)
 }
