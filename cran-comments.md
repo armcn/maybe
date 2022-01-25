@@ -1,4 +1,7 @@
-This is the first submission.
+This is a resubmission.
+
+The automated CRAN checks found invalid URLs. I have changed them to the 
+recommended format.
 
 ## Test Environments
 
@@ -15,14 +18,16 @@ This is the first submission.
 
 Notes:
 
+1. Possibly misspelled words in DESCRIPTION:
+   Monad (2:18)
+   composable (12:72)
+
 These are both correctly spelled words
 
-  Possibly misspelled words in DESCRIPTION:
-      Monad (2:18)
-      composable (12:72)
+2. Found the following files/directories:
+   'lastMiKTeXException'
       
 This note happens on my previously accepted CRAN package. 
 Seems to be no way to resolve the note.
     
-  Found the following files/directories:
-      'lastMiKTeXException'
+  
