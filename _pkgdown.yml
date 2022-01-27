@@ -28,17 +28,17 @@ reference:
     - and_then
     - flatten_maybe
     - with_default
+    - is_maybe
+    - is_just
+    - is_nothing
 - title: Predicates
   desc: Predicate functions to assert properties of a return value.
   contents:
-    - is_just
-    - is_nothing
-    - is_maybe
     - not_empty
+    - not_undefined
     - not_null
     - not_na
     - not_nan
     - not_infinite
-    - not_undefined
     - and
     - or

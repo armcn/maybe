@@ -69,9 +69,9 @@ library(maybe)
 ```
 
 `10 %//% 2` returns `Just 5` and `10 %//% 0` returns `Nothing`. These
-are the two possibly values of the maybe type. It can be `Just` the
+are the two possible values of the maybe type. It can be `Just` the
 value, or it can be `Nothing`, the absence of a value. For the value to
-be used as an input of another function you need to specify what will
+be used as an input to another function you need to specify what will
 happen if the function returns `Nothing`. This can be done using the
 `with_default` function. This function will return the value contained
 in the `Just`, or if it is `Nothing` it will return the default. Think
@@ -120,9 +120,9 @@ safe_max(integer()) |> map_maybe(sqrt)
 ```
 
 What if we wanted to chain multiple “safe” functions (functions that
-return maybe values) together? `and_then`, often called `bind` in other
-languages, works similarly to `map_maybe` except the function provided
-must return a maybe value.
+return maybe values) together? The function `and_then`, often called
+`bind` in other languages, works similarly to `map_maybe` except the
+function provided must return a maybe value.
 
 ``` r
 safe_sqrt <- function(a) {
@@ -148,8 +148,8 @@ we can wrap it in the `maybe` function. This will modify the function to
 return `Nothing` on an error or warning. A predicate function (a
 function that returns `TRUE` or `FALSE`) can be provided as an argument
 to assert something about the return value. If the predicate returns
-`FALSE` then a `Nothing` value will be returned, otherwise it will be a
-`Just` value.
+`TRUE` then a `Just` value will be returned, otherwise it will be
+`Nothing`.
 
 ``` r
 safe_max <- maybe(max)

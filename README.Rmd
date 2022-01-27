@@ -134,8 +134,8 @@ values. Instead of rewriting the function to return maybe values we can wrap it
 in the `maybe` function. This will modify the function to return `Nothing` on 
 an error or warning. A predicate function (a function that returns `TRUE` or
 `FALSE`) can be provided as an argument to assert something about the return 
-value. If the predicate returns `FALSE` then a `Nothing` value will be returned,
-otherwise it will be a `Just` value. 
+value. If the predicate returns `TRUE` then a `Just` value will be returned,
+otherwise it will be `Nothing`.
 
 ```{r}
 safe_max <- maybe(max)

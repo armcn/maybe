@@ -27,9 +27,9 @@ nothing <- function() {
 #' the function would normally return an error or warning the modified function
 #' will return a 'Nothing' value, otherwise it will return a 'Just' value.
 #' If a predicate function is provided with the parameter `ensure`, if the
-#' predicate returns `FALSE` when evaluated on the return value of the function,
-#' then a 'Nothing' value will be returned by the modified function, otherwise
-#' it will return a 'Just' value.
+#' predicate returns `TRUE` when evaluated on the return value of the function,
+#' then a 'Just' value will be returned by the modified function, otherwise
+#' it will return a 'Nothing' value.
 #'
 #' @param .f A function to modify
 #' @param ensure A predicate function
@@ -78,9 +78,9 @@ maybe <- function(.f, ensure = \(a) TRUE, allow_warning = FALSE) {
 #' or a default value in some circumstances. If the function would normally
 #' return an error or warning the modified function will return a default value,
 #' otherwise it will return the expected value. If a predicate function is
-#' provided with the parameter `ensure`, if the predicate returns `FALSE` when
-#' evaluated on the return value of the function, then a default value will be
-#' returned by the modified function, otherwise it will return the expected
+#' provided with the parameter `ensure`, if the predicate returns `TRUE` when
+#' evaluated on the return value of the function, then the expected value will
+#' be returned by the modified function, otherwise it will return the default
 #' value.
 #'
 #' @param .f A function to modify
