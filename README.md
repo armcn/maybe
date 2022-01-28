@@ -115,7 +115,7 @@ nothing() |> map_maybe(sqrt)
 safe_max(1:9) |> map_maybe(sqrt)
 #> Just
 #> [1] 3
-safe_max(integer()) |> map_maybe(sqrt)
+safe_max(integer(0)) |> map_maybe(sqrt)
 #> Nothing
 ```
 

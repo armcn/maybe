@@ -24,4 +24,5 @@ Suggests:
     testthat (>= 3.0.0),
     covr,
     quickcheck
+Remotes: armcn/quickcheck
 Config/testthat/edition: 3

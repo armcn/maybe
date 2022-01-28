@@ -5,18 +5,23 @@ test_that("not_empty returns TRUE for non-empty vectors", {
   )
 })
 
-test_that("not_empty returns TRUE for non-empty dataframes", {
+test_that("not_empty returns TRUE for non-empty tibbles", {
   for_all(
     a = any_tibble(rows = c(1L, 10L)),
-    property = \(a) not_empty(a) |> expect_true(),
-    tests = 10L
+    property = \(a) not_empty(a) |> expect_true()
   )
 })
 
 test_that("not_empty returns FALSE for empty vectors", {
-  not_empty(vector()) |> expect_false()
+  for_all(
+    a = any_vector(len = 0L),
+    property = \(a) not_empty(a) |> expect_false()
+  )
 })
 
-test_that("not_empty returns FALSE for empty data frames", {
-  not_empty(data.frame()) |> expect_false()
+test_that("not_empty returns FALSE for empty tibbles", {
+  for_all(
+    a = any_tibble(rows = 0L),
+    property = \(a) not_empty(a) |> expect_false()
+  )
 })

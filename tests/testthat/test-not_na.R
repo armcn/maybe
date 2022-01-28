@@ -8,7 +8,7 @@ test_that("not_na returns FALSE if value is NA", {
 
 test_that("not_na returns TRUE if value is not NA", {
   for_all(
-    a = any_vector(),
-    property = \(a) not_na(a) |> expect_true()
+    a = anything(),
+    property = \(a) (isTRUE(is.na(a)) || not_na(a)) |> expect_true()
   )
 })

@@ -1,12 +1,15 @@
 test_that("is_nothing returns TRUE for nothing values", {
-  is_nothing(nothing()) |> expect_true()
+  nothing() |> is_nothing() |> expect_true()
 })
 
 test_that("is_nothing returns FALSE for non-nothing values", {
-  is_nothing(just(1)) |> expect_false()
+  for_all(
+    a = anything(),
+    property = \(a) just(a) |> is_nothing() |> expect_false()
+  )
 
   for_all(
-    a = any_vector(),
+    a = anything(),
     property = \(a) is_nothing(a) |> expect_false()
   )
 })

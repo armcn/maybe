@@ -4,7 +4,9 @@ test_that("not_nan returns FALSE if value is NaN", {
 
 test_that("not_nan returns TRUE if value is not NaN", {
   for_all(
-    a = any_vector(),
-    property = \(a) not_nan(a) |> expect_true()
+    a = anything(),
+    property = \(a)
+      (isTRUE(identical(a, NaN)) || not_nan(a)) |>
+        expect_true()
   )
 })

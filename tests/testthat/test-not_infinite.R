@@ -5,7 +5,9 @@ test_that("not_infinite returns FALSE if value is infinite", {
 
 test_that("not_infinite returns TRUE if value is not infinite", {
   for_all(
-    a = any_vector(),
-    property = \(a) not_infinite(a) |> expect_true()
+    a = anything(),
+    property = \(a)
+      (identical(a, Inf) || identical(a, -Inf) || not_infinite(a)) |>
+        expect_true()
   )
 })

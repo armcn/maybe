@@ -23,9 +23,9 @@ Wrapping a function in \code{perhaps} will modify it to return the expected valu
 or a default value in some circumstances. If the function would normally
 return an error or warning the modified function will return a default value,
 otherwise it will return the expected value. If a predicate function is
-provided with the parameter \code{ensure}, if the predicate returns \code{FALSE} when
-evaluated on the return value of the function, then a default value will be
-returned by the modified function, otherwise it will return the expected
+provided with the parameter \code{ensure}, if the predicate returns \code{TRUE} when
+evaluated on the return value of the function, then the expected value will
+be returned by the modified function, otherwise it will return the default
 value.
 }
 \examples{

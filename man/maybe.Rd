@@ -21,9 +21,9 @@ Wrapping a function in \code{maybe} will modify it to return a maybe value. If
 the function would normally return an error or warning the modified function
 will return a 'Nothing' value, otherwise it will return a 'Just' value.
 If a predicate function is provided with the parameter \code{ensure}, if the
-predicate returns \code{FALSE} when evaluated on the return value of the function,
-then a 'Nothing' value will be returned by the modified function, otherwise
-it will return a 'Just' value.
+predicate returns \code{TRUE} when evaluated on the return value of the function,
+then a 'Just' value will be returned by the modified function, otherwise
+it will return a 'Nothing' value.
 }
 \examples{
 maybe(mean)(1:10)

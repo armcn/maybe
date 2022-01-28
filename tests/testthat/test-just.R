@@ -1,20 +1,20 @@
-test_that("any value wrapped in just has class replaced by 'maybe'", {
+test_that("just replaces class with 'maybe'", {
   for_all(
-    a = any_vector(),
-    property = \(a) just(a) |> class() |> expect_equal("maybe")
+    a = anything(),
+    property = \(a) just(a) |> class() |> expect_identical("maybe")
   )
 })
 
-test_that("any value wrapped in just is a maybe value", {
+test_that("just returns maybe values", {
   for_all(
-    a = any_vector(),
+    a = anything(),
     property = \(a) just(a) |> is_maybe() |> expect_true()
   )
 })
 
-test_that("any value wrapped in just is a just value", {
+test_that("just returns just values", {
   for_all(
-    a = any_vector(),
+    a = anything(),
     property = \(a) just(a) |> is_just() |> expect_true()
   )
 })
