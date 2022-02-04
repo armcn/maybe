@@ -36,11 +36,39 @@ install.packages("maybe")
 And the development version from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("armcn/maybe")
+# install.packages("remotes")
+remotes::install_github("armcn/maybe")
 ```
 
 # Usage
+
+The following example shows how the maybe package can be used to create
+a safe data processing pipeline.
+
+``` r
+library(dplyr, warn.conflicts = FALSE)
+library(maybe)
+
+safe_filter <- maybe(filter, ensure = not_empty)
+safe_mean <- maybe(mean, ensure = not_undefined)
+safe_pull <- maybe(pull)
+
+mean_mpg_of_cyl <- function(.cyl) {
+  mtcars |> 
+    safe_filter(cyl == .cyl) |> 
+    and_then(safe_pull, mpg) |> 
+    and_then(safe_mean) |> 
+    with_default(0)
+}
+
+mean_mpg_of_cyl(8L)
+#> [1] 15.1
+
+mean_mpg_of_cyl(100L)
+#> [1] 0
+```
+
+## The maybe type
 
 Maybe values can be used to model computations that may fail or have
 undefined outputs. For example, dividing by zero is mathematically
@@ -50,8 +78,6 @@ behavior later in the program. The maybe type can be used to improve the
 safety of the divide function.
 
 ``` r
-library(maybe)
-
 `%//%` <- function(a, b) {
   if (b == 0) nothing() else just(a / b)
 }
@@ -91,6 +117,8 @@ you need to unwrap it first.
 10 %//% 0 |> with_default(0)
 #> [1] 0
 ```
+
+## Chaining maybe values
 
 This may seem tedious to rewrite functions to return maybe values and
 then specify a default value each time. This is where the maybe chaining
@@ -142,6 +170,8 @@ safe_max(integer()) |> and_then(safe_sqrt)
 #> Nothing
 ```
 
+## Creating maybe functions
+
 The maybe package provides another way to create functions that return
 maybe values. Instead of rewriting the function to return maybe values
 we can wrap it in the `maybe` function. This will modify the function to
@@ -175,6 +205,8 @@ safe_max(1:9) |> sqrt()
 safe_max("hello") |> sqrt()
 #> [1] 0
 ```
+
+## Predicates
 
 Multiple predicates can be combined with the `and`/`or` functions.
 

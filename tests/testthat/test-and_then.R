@@ -44,6 +44,6 @@ test_that("and_then will return a non-nested maybe with a maybe returning functi
     property = \(a)
       just(a) |>
         and_then(identity) |>
-        expect_identical(flatten_maybe(just(a)))
+        expect_identical(just(a))
   )
 })
