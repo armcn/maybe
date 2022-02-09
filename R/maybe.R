@@ -211,9 +211,37 @@ with_default.maybe <- function(.m, default) {
 #' @export
 from_maybe <- with_default
 
+#' Check if a maybe value contains a specific value
+#'
+#' If the maybe value is a 'Nothing' variant `FALSE` will be returned. If it is
+#' a 'Just' variant the contents will be unwrapped and compared to the `value`
+#' argument using `base::identical`.
+#'
+#' @param .m A maybe value
+#' @param value A value to check
+#'
+#' @examples
+#' just(1) |> maybe_contains(1)
+#' just("a") |> maybe_contains(1)
+#' nothing() |> maybe_contains(1)
+#' @return `TRUE` or `FALSE`
+#' @export
+maybe_contains <- function(.m, value) {
+  UseMethod("maybe_contains", .m)
+}
+
+#' @export
+maybe_contains.maybe <- function(.m, value) {
+  if (is_nothing(.m))
+    FALSE
+
+  else
+    identical(.m$content, value)
+}
+
 #' @export
 print.maybe <- function(x, ...) {
-  if (x$type == "just") {
+  if (is_just(x)) {
     cat("Just\n")
     print(x$content, ...)
 
