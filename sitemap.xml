@@ -25,9 +25,6 @@
     <loc>/reference/and_then.html</loc>
   </url>
   <url>
-    <loc>/reference/flatten_maybe.html</loc>
-  </url>
-  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
@@ -43,9 +40,6 @@
     <loc>/reference/just.html</loc>
   </url>
   <url>
-    <loc>/reference/map_maybe.html</loc>
-  </url>
-  <url>
     <loc>/reference/maybe.html</loc>
   </url>
   <url>
@@ -53,6 +47,12 @@
   </url>
   <url>
     <loc>/reference/maybe_equal.html</loc>
+  </url>
+  <url>
+    <loc>/reference/maybe_flatten.html</loc>
+  </url>
+  <url>
+    <loc>/reference/maybe_map.html</loc>
   </url>
   <url>
     <loc>/reference/not_empty.html</loc>
