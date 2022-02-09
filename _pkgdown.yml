@@ -24,9 +24,9 @@ reference:
     - nothing
     - maybe
     - perhaps
-    - map_maybe
+    - maybe_map
     - and_then
-    - flatten_maybe
+    - maybe_flatten
     - with_default
     - maybe_contains
     - maybe_equal

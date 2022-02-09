@@ -20,17 +20,17 @@ test_that("and_then will not modify a maybe value with the identity function", {
   )
 })
 
-test_that("and_then will behave the same as map_maybe with a regular function", {
+test_that("and_then will behave the same as maybe_map with a regular function", {
   nothing() |>
     and_then(identity) |>
-    expect_identical(map_maybe(nothing(), identity))
+    expect_identical(maybe_map(nothing(), identity))
 
   for_all(
     a = anything(),
     property = \(a)
       just(a) |>
         and_then(identity) |>
-        expect_identical(map_maybe(just(a), identity))
+        expect_identical(maybe_map(just(a), identity))
   )
 })
 

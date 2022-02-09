@@ -108,16 +108,16 @@ perhaps <- function(.f, default, ensure = \(a) TRUE, allow_warning = FALSE) {
 #' @param ... Named arguments for the function `.f`
 #'
 #' @examples
-#' just(9) |> map_maybe(sqrt)
-#' nothing() |> map_maybe(sqrt)
+#' just(9) |> maybe_map(sqrt)
+#' nothing() |> maybe_map(sqrt)
 #' @return A maybe value
 #' @export
-map_maybe <- function(.m, .f, ...) {
-  UseMethod("map_maybe", .m)
+maybe_map <- function(.m, .f, ...) {
+  UseMethod("maybe_map", .m)
 }
 
 #' @export
-map_maybe.maybe <- function(.m, .f, ...) {
+maybe_map.maybe <- function(.m, .f, ...) {
   if (is_just(.m))
     just(.f(.m$content, ...))
 
@@ -125,9 +125,9 @@ map_maybe.maybe <- function(.m, .f, ...) {
     nothing()
 }
 
-#' @rdname map_maybe
+#' @rdname maybe_map
 #' @export
-fmap <- map_maybe
+fmap <- maybe_map
 
 #' Evaluate a maybe returning function on a maybe value
 #'
@@ -149,7 +149,7 @@ and_then <- function(.m, .f, ...) {
 
 #' @export
 and_then.maybe <- function(.m, .f, ...) {
-  flatten_maybe(map_maybe(.m, .f, ...))
+  maybe_flatten(maybe_map(.m, .f, ...))
 }
 
 #' @rdname and_then
@@ -161,18 +161,18 @@ bind <- and_then
 #' @param .m A maybe value
 #'
 #' @examples
-#' just(just(1)) |> flatten_maybe()
-#' just(nothing()) |> flatten_maybe()
-#' just(1) |> flatten_maybe()
-#' nothing() |> flatten_maybe()
+#' just(just(1)) |> maybe_flatten()
+#' just(nothing()) |> maybe_flatten()
+#' just(1) |> maybe_flatten()
+#' nothing() |> maybe_flatten()
 #' @return A maybe value
 #' @export
-flatten_maybe <- function(.m) {
-  UseMethod("flatten_maybe", .m)
+maybe_flatten <- function(.m) {
+  UseMethod("maybe_flatten", .m)
 }
 
 #' @export
-flatten_maybe.maybe <- function(.m) {
+maybe_flatten.maybe <- function(.m) {
   if (is_just(.m) && is_maybe(.m$content))
     .m$content
 
@@ -180,9 +180,9 @@ flatten_maybe.maybe <- function(.m) {
     .m
 }
 
-#' @rdname flatten_maybe
+#' @rdname maybe_flatten
 #' @export
-join <- flatten_maybe
+join <- maybe_flatten
 
 #' Unwrap a maybe value or return a default
 #'

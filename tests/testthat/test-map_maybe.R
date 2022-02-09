@@ -1,13 +1,13 @@
-test_that("map_maybe will fail with non-maybe values", {
+test_that("maybe_map will fail with non-maybe values", {
   for_all(
     a = anything(),
-    property = \(a) map_maybe(a, identity) |> expect_error()
+    property = \(a) maybe_map(a, identity) |> expect_error()
   )
 })
 
-test_that("map_maybe will not modify a maybe value with the identity function", {
+test_that("maybe_map will not modify a maybe value with the identity function", {
   nothing() |>
-    map_maybe(identity) |>
+    maybe_map(identity) |>
     is_nothing() |>
     expect_true()
 
@@ -15,19 +15,19 @@ test_that("map_maybe will not modify a maybe value with the identity function", 
     a = anything(),
     property = \(a)
       just(a) |>
-        map_maybe(identity) |>
+        maybe_map(identity) |>
         expect_identical(just(a))
   )
 })
 
-test_that("map_maybe will return a nested just with a maybe returning function", {
+test_that("maybe_map will return a nested just with a maybe returning function", {
   safe_identity <- function(a) just(identity(a))
 
   for_all(
     a = anything(),
     property = \(a)
       just(a) |>
-        map_maybe(safe_identity) |>
+        maybe_map(safe_identity) |>
         expect_identical(just(just(a)))
   )
 })

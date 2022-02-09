@@ -122,11 +122,11 @@ you need to unwrap it first.
 
 This may seem tedious to rewrite functions to return maybe values and
 then specify a default value each time. This is where the maybe chaining
-functions become useful. `map_maybe` allows a regular R function to be
-evaluated on a maybe value. `map_maybe`, often called `fmap` in other
+functions become useful. `maybe_map` allows a regular R function to be
+evaluated on a maybe value. `maybe_map`, often called `fmap` in other
 languages, reaches into the maybe value, applies a function to the
 value, then re-wraps the result in a maybe. If the input is a `Just`
-value, the return value of `map_maybe` will also be a `Just`. If it is
+value, the return value of `maybe_map` will also be a `Just`. If it is
 `Nothing` the return value will be `Nothing`.
 
 ``` r
@@ -134,22 +134,22 @@ safe_max <- function(a) {
   if (length(a) == 0L) nothing() else just(max(a))
 }
 
-just(9) |> map_maybe(sqrt)
+just(9) |> maybe_map(sqrt)
 #> Just
 #> [1] 3
-nothing() |> map_maybe(sqrt)
+nothing() |> maybe_map(sqrt)
 #> Nothing
 
-safe_max(1:9) |> map_maybe(sqrt)
+safe_max(1:9) |> maybe_map(sqrt)
 #> Just
 #> [1] 3
-safe_max(integer(0)) |> map_maybe(sqrt)
+safe_max(integer(0)) |> maybe_map(sqrt)
 #> Nothing
 ```
 
 What if we wanted to chain multiple “safe” functions (functions that
 return maybe values) together? The function `and_then`, often called
-`bind` in other languages, works similarly to `map_maybe` except the
+`bind` in other languages, works similarly to `maybe_map` except the
 function provided must return a maybe value.
 
 ``` r
@@ -234,14 +234,14 @@ safe_mean(c(NA, 2, 3))
 
 ## Function names
 
-The names of functions `map_maybe`, `and_then`, `flatten_maybe`, and
+The names of functions `maybe_map`, `and_then`, `maybe_flatten`, and
 `with_default` are different from the traditional names used for these
 functions in other functional programming languages. If you would like
 to use the more traditional names aliases are provided.
 
--   `fmap` == `map_maybe`
+-   `fmap` == `maybe_map`
 -   `bind` == `and_then`
--   `join` == `flatten_maybe`
+-   `join` == `maybe_flatten`
 -   `from_maybe` == `with_default`
 
 ## Inspiration / Prior work
