@@ -239,6 +239,28 @@ maybe_contains.maybe <- function(.m, value) {
     identical(.m$content, value)
 }
 
+#' Check if two maybe values are equal
+#'
+#' If both values are 'Nothing' variants or both values are 'Just' variants with
+#' identical contents `TRUE` will be returned, otherwise `FALSE`.
+#'
+#' @param .m1 A maybe value
+#' @param .m2 A maybe value
+#'
+#' @examples
+#' maybe_equal(just(1), just(1))
+#' maybe_equal(just(1), just(2))
+#' maybe_equal(nothing(), nothing())
+#' @return `TRUE` or `FALSE`
+#' @export
+maybe_equal <- function(.m1, .m2) {
+  if (!is_maybe(.m1) || !is_maybe(.m2))
+    stop("Both arguments must be maybe values")
+
+  else
+    identical(.m1, .m2)
+}
+
 #' @export
 print.maybe <- function(x, ...) {
   if (is_just(x)) {

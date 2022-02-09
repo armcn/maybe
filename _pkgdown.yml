@@ -29,6 +29,7 @@ reference:
     - flatten_maybe
     - with_default
     - maybe_contains
+    - maybe_equal
     - is_maybe
     - is_just
     - is_nothing
