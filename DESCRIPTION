@@ -22,7 +22,7 @@ RoxygenNote: 7.1.1
 Depends: R (>= 4.1.0)
 Suggests: 
     testthat (>= 3.0.0),
-    covr,
-    quickcheck
+    quickcheck (>= 0.1.0),
+    covr
 Remotes: armcn/quickcheck
 Config/testthat/edition: 3
