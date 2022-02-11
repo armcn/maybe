@@ -196,11 +196,8 @@ join <- maybe_flatten
 #' @return The unwrapped maybe value or the default value
 #' @export
 with_default <- function(.m, default) {
-  UseMethod("with_default", .m)
-}
+  assert_is_maybe(.m)
 
-#' @export
-with_default.maybe <- function(.m, default) {
   if (is_just(.m))
     .m$content
 
@@ -228,11 +225,8 @@ from_maybe <- with_default
 #' @return `TRUE` or `FALSE`
 #' @export
 maybe_contains <- function(.m, value) {
-  UseMethod("maybe_contains", .m)
-}
+  assert_is_maybe(.m)
 
-#' @export
-maybe_contains.maybe <- function(.m, value) {
   if (is_nothing(.m))
     FALSE
 
@@ -256,7 +250,7 @@ maybe_contains.maybe <- function(.m, value) {
 #' @export
 maybe_equal <- function(.m1, .m2) {
   if (!is_maybe(.m1) || !is_maybe(.m2))
-    stop("Both arguments must be maybe values")
+    stop("Both arguments must be maybe values", call. = FALSE)
 
   else
     identical(.m1, .m2)
@@ -326,17 +320,6 @@ assert_is_maybe <- function(a) {
     stop("The argument '.m' must be a maybe value.", call. = FALSE)
 }
 
-assert_returns_not_maybe <- function(a) {
-  if (is_maybe(a))
-    stop(
-      "The function provided to 'maybe_map' must not return a maybe value.",
-      call. = FALSE
-    )
-
-  else
-    invisible(a)
-}
-
 assert_returns_maybe <- function(a) {
   if (is_maybe(a))
     invisible(a)
@@ -346,4 +329,15 @@ assert_returns_maybe <- function(a) {
       "The function provided to 'and_then' must return a maybe value.",
       call. = FALSE
     )
+}
+
+assert_returns_not_maybe <- function(a) {
+  if (is_maybe(a))
+    stop(
+      "The function provided to 'maybe_map' must not return a maybe value.",
+      call. = FALSE
+    )
+
+  else
+    invisible(a)
 }

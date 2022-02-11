@@ -98,12 +98,13 @@ safety of the divide function.
 are the two possible values of the maybe type. It can be `Just` the
 value, or it can be `Nothing`, the absence of a value. For the value to
 be used as an input to another function you need to specify what will
-happen if the function returns `Nothing`. This can be done using the
-`with_default` function. This function will return the value contained
-in the `Just`, or if it is `Nothing` it will return the default. Think
-of a maybe value as a container. In this container can be `Just` the
-value or `Nothing`. To use the contained value in a regular R function
-you need to unwrap it first.
+happen if the function returns `Nothing`.
+
+This can be done using the `with_default` function. This function will
+return the value contained in the `Just`, or if it is `Nothing` it will
+return the default. Think of a maybe value as a container. In this
+container can be `Just` the value or `Nothing`. To use the contained
+value in a regular R function you need to unwrap it first.
 
 ``` r
 10 %//% 2
@@ -122,12 +123,14 @@ you need to unwrap it first.
 
 This may seem tedious to rewrite functions to return maybe values and
 then specify a default value each time. This is where the maybe chaining
-functions become useful. `maybe_map` allows a regular R function to be
-evaluated on a maybe value. `maybe_map`, often called `fmap` in other
-languages, reaches into the maybe value, applies a function to the
-value, then re-wraps the result in a maybe. If the input is a `Just`
-value, the return value of `maybe_map` will also be a `Just`. If it is
-`Nothing` the return value will be `Nothing`.
+functions become useful.
+
+`maybe_map` allows a regular R function to be evaluated on a maybe
+value. `maybe_map`, often called `fmap` in other languages, reaches into
+the maybe value, applies a function to the value, then re-wraps the
+result in a maybe. If the input is a `Just` value, the return value of
+`maybe_map` will also be a `Just`. If it is `Nothing` the return value
+will be `Nothing`.
 
 ``` r
 safe_max <- function(a) {
@@ -158,14 +161,10 @@ safe_sqrt <- function(a) {
 }
 
 just(9) |> and_then(safe_sqrt)
-#> Just
-#> [1] 3
 nothing() |> and_then(safe_sqrt)
 #> Nothing
 
 safe_max(1:9) |> and_then(safe_sqrt)
-#> Just
-#> [1] 3
 safe_max(integer()) |> and_then(safe_sqrt)
 #> Nothing
 ```
@@ -175,21 +174,19 @@ safe_max(integer()) |> and_then(safe_sqrt)
 The maybe package provides another way to create functions that return
 maybe values. Instead of rewriting the function to return maybe values
 we can wrap it in the `maybe` function. This will modify the function to
-return `Nothing` on an error or warning. A predicate function (a
-function that returns `TRUE` or `FALSE`) can be provided as an argument
-to assert something about the return value. If the predicate returns
-`TRUE` then a `Just` value will be returned, otherwise it will be
-`Nothing`.
+return `Nothing` on an error or warning.
+
+A predicate function (a function that returns `TRUE` or `FALSE`) can be
+provided as an argument to assert something about the return value. If
+the predicate returns `TRUE` then a `Just` value will be returned,
+otherwise it will be `Nothing`.
 
 ``` r
 safe_max <- maybe(max)
 safe_sqrt <- maybe(sqrt, ensure = not_infinite)
 
 safe_max(1:9) |> and_then(safe_sqrt)
-#> Just
-#> [1] 3
 safe_max("hello") |> and_then(safe_sqrt)
-#> Nothing
 ```
 
 This pattern of modifying a function with the `maybe` function and then
@@ -230,6 +227,27 @@ safe_mean(c(1, 2, 3))
 #> [1] 2
 safe_mean(c(NA, 2, 3))
 #> Nothing
+```
+
+## Comparing values
+
+Two maybe values can be compared using `maybe_equal`. It will return
+`TRUE` if they are identical `Just` values or both values are `Nothing`.
+To check if a maybe value contains a specific value use
+`maybe_contains`.
+
+``` r
+maybe_equal(nothing(), nothing())
+#> [1] TRUE
+maybe_equal(just(1), just(1))
+#> [1] TRUE
+maybe_equal(just("hello"), nothing())
+#> [1] FALSE
+
+just(list(1, 2, 3)) |> maybe_contains(list(1, 2, 3))
+#> [1] TRUE
+nothing() |> maybe_contains(list(1, 2, 3))
+#> [1] FALSE
 ```
 
 ## Function names
