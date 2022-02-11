@@ -1,49 +1,34 @@
 test_that("and_then will fail with non-maybe values", {
   for_all(
     a = anything(),
-    property = \(a) and_then(a, identity) |> expect_error()
+    property = \(a)
+      and_then(a, identity) |>
+        expect_error()
   )
 })
 
-test_that("and_then will not modify a maybe value with the identity function", {
-  nothing() |>
-    and_then(identity) |>
-    is_nothing() |>
-    expect_true()
-
+test_that("and_then will fail with a function which doesn't return a maybe value", {
   for_all(
     a = anything(),
     property = \(a)
       just(a) |>
         and_then(identity) |>
-        expect_identical(just(a))
+        expect_error()
   )
 })
 
-test_that("and_then will behave the same as maybe_map with a regular function", {
-  nothing() |>
-    and_then(identity) |>
-    expect_identical(maybe_map(nothing(), identity))
+test_that("and_then will not modify a maybe value with a safe identity function", {
+  safe_identity <- \(a) just(identity(a))
 
-  for_all(
-    a = anything(),
-    property = \(a)
-      just(a) |>
-        and_then(identity) |>
-        expect_identical(maybe_map(just(a), identity))
-  )
-})
-
-test_that("and_then will return a non-nested maybe with a maybe returning function", {
   nothing() |>
-    and_then(identity) |>
+    and_then(safe_identity) |>
     expect_identical(nothing())
 
   for_all(
     a = anything(),
     property = \(a)
       just(a) |>
-        and_then(identity) |>
+        and_then(safe_identity) |>
         expect_identical(just(a))
   )
 })

@@ -1,6 +1,6 @@
 Package: maybe
 Title: The Maybe Monad
-Version: 0.1.0.9000
+Version: 0.2.0
 Authors@R: 
     person(given = "Andrew",
            family = "McNeil",
@@ -24,5 +24,4 @@ Suggests:
     testthat (>= 3.0.0),
     quickcheck (>= 0.1.0),
     covr
-Remotes: armcn/quickcheck
 Config/testthat/edition: 3

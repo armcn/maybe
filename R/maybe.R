@@ -113,13 +113,12 @@ perhaps <- function(.f, default, ensure = \(a) TRUE, allow_warning = FALSE) {
 #' @return A maybe value
 #' @export
 maybe_map <- function(.m, .f, ...) {
-  UseMethod("maybe_map", .m)
-}
+  assert_is_maybe(.m)
 
-#' @export
-maybe_map.maybe <- function(.m, .f, ...) {
   if (is_just(.m))
-    just(.f(.m$content, ...))
+    .f(.m$content, ...) |>
+      assert_returns_not_maybe() |>
+      just()
 
   else
     nothing()
@@ -144,12 +143,14 @@ fmap <- maybe_map
 #' @return A maybe value
 #' @export
 and_then <- function(.m, .f, ...) {
-  UseMethod("and_then", .m)
-}
+  assert_is_maybe(.m)
 
-#' @export
-and_then.maybe <- function(.m, .f, ...) {
-  maybe_flatten(maybe_map(.m, .f, ...))
+  if (is_just(.m))
+    .f(.m$content, ...) |>
+      assert_returns_maybe()
+
+  else
+    nothing()
 }
 
 #' @rdname and_then
@@ -261,6 +262,48 @@ maybe_equal <- function(.m1, .m2) {
     identical(.m1, .m2)
 }
 
+#' Check if an object is a maybe value
+#'
+#' @param a Object to check
+#'
+#' @examples
+#' is_maybe(1)
+#' is_maybe(just(1))
+#' is_maybe(nothing())
+#' @return `TRUE` or `FALSE`
+#' @export
+is_maybe <- function(a) {
+  identical(class(a), "maybe")
+}
+
+#' Check if an object is a 'Just' value
+#'
+#' @param a Object to check
+#'
+#' @examples
+#' is_just(1)
+#' is_just(just(1))
+#' is_just(nothing())
+#' @return `TRUE` or `FALSE`
+#' @export
+is_just <- function(a) {
+  and(is_maybe, \(b) identical(b$type, "just"))(a)
+}
+
+#' Check if an object is a 'Nothing' value
+#'
+#' @param a Object to check
+#'
+#' @examples
+#' is_nothing(1)
+#' is_nothing(just(1))
+#' is_nothing(nothing())
+#' @return `TRUE` or `FALSE`
+#' @export
+is_nothing <- function(a) {
+  and(is_maybe, \(b) identical(b$type, "nothing"))(a)
+}
+
 #' @export
 print.maybe <- function(x, ...) {
   if (is_just(x)) {
@@ -273,4 +316,34 @@ print.maybe <- function(x, ...) {
 
 as_maybe <- function(a) {
   structure(a, class = "maybe")
+}
+
+assert_is_maybe <- function(a) {
+  if (is_maybe(a))
+    invisible(a)
+
+  else
+    stop("The argument '.m' must be a maybe value.", call. = FALSE)
+}
+
+assert_returns_not_maybe <- function(a) {
+  if (is_maybe(a))
+    stop(
+      "The function provided to 'maybe_map' must not return a maybe value.",
+      call. = FALSE
+    )
+
+  else
+    invisible(a)
+}
+
+assert_returns_maybe <- function(a) {
+  if (is_maybe(a))
+    invisible(a)
+
+  else
+    stop(
+      "The function provided to 'and_then' must return a maybe value.",
+      call. = FALSE
+    )
 }
