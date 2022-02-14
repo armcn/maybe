@@ -169,11 +169,8 @@ bind <- and_then
 #' @return A maybe value
 #' @export
 maybe_flatten <- function(.m) {
-  UseMethod("maybe_flatten", .m)
-}
+  assert_is_maybe(.m)
 
-#' @export
-maybe_flatten.maybe <- function(.m) {
   if (is_just(.m) && is_maybe(.m$content))
     .m$content
 
