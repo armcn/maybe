@@ -23,6 +23,6 @@ A maybe value
 Evaluate a function on a maybe value
 }
 \examples{
-just(9) |> maybe_map(sqrt)
-nothing() |> maybe_map(sqrt)
+just(9) \%>\% maybe_map(sqrt)
+nothing() \%>\% maybe_map(sqrt)
 }

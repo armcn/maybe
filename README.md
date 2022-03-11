@@ -54,10 +54,10 @@ safe_mean <- maybe(mean, ensure = not_undefined)
 safe_pull <- maybe(pull)
 
 mean_mpg_of_cyl <- function(.cyl) {
-  mtcars |> 
-    safe_filter(cyl == .cyl) |> 
-    and_then(safe_pull, mpg) |> 
-    and_then(safe_mean) |> 
+  mtcars %>% 
+    safe_filter(cyl == .cyl) %>% 
+    and_then(safe_pull, mpg) %>% 
+    and_then(safe_mean) %>% 
     with_default(0)
 }
 
@@ -110,12 +110,12 @@ value in a regular R function you need to unwrap it first.
 10 %//% 2
 #> Just
 #> [1] 5
-10 %//% 2 |> with_default(0)
+10 %//% 2 %>% with_default(0)
 #> [1] 5
 
 10 %//% 0
 #> Nothing
-10 %//% 0 |> with_default(0)
+10 %//% 0 %>% with_default(0)
 #> [1] 0
 ```
 
@@ -137,16 +137,16 @@ safe_max <- function(a) {
   if (length(a) == 0L) nothing() else just(max(a))
 }
 
-just(9) |> maybe_map(sqrt)
+just(9) %>% maybe_map(sqrt)
 #> Just
 #> [1] 3
-nothing() |> maybe_map(sqrt)
+nothing() %>% maybe_map(sqrt)
 #> Nothing
 
-safe_max(1:9) |> maybe_map(sqrt)
+safe_max(1:9) %>% maybe_map(sqrt)
 #> Just
 #> [1] 3
-safe_max(integer(0)) |> maybe_map(sqrt)
+safe_max(integer(0)) %>% maybe_map(sqrt)
 #> Nothing
 ```
 
@@ -160,12 +160,12 @@ safe_sqrt <- function(a) {
   if (a < 0) nothing() else just(sqrt(a))
 }
 
-just(9) |> and_then(safe_sqrt)
-nothing() |> and_then(safe_sqrt)
+just(9) %>% and_then(safe_sqrt)
+nothing() %>% and_then(safe_sqrt)
 #> Nothing
 
-safe_max(1:9) |> and_then(safe_sqrt)
-safe_max(integer()) |> and_then(safe_sqrt)
+safe_max(1:9) %>% and_then(safe_sqrt)
+safe_max(integer()) %>% and_then(safe_sqrt)
 #> Nothing
 ```
 
@@ -185,8 +185,8 @@ otherwise it will be `Nothing`.
 safe_max <- maybe(max)
 safe_sqrt <- maybe(sqrt, ensure = not_infinite)
 
-safe_max(1:9) |> and_then(safe_sqrt)
-safe_max("hello") |> and_then(safe_sqrt)
+safe_max(1:9) %>% and_then(safe_sqrt)
+safe_max("hello") %>% and_then(safe_sqrt)
 ```
 
 This pattern of modifying a function with the `maybe` function and then
@@ -197,9 +197,9 @@ function will always return a regular R value, never maybe values.
 ``` r
 safe_max <- perhaps(max, ensure = is.numeric, default = 0)
 
-safe_max(1:9) |> sqrt()
+safe_max(1:9) %>% sqrt()
 #> [1] 3
-safe_max("hello") |> sqrt()
+safe_max("hello") %>% sqrt()
 #> [1] 0
 ```
 
@@ -244,9 +244,9 @@ maybe_equal(just(1), just(1))
 maybe_equal(just("hello"), nothing())
 #> [1] FALSE
 
-just(list(1, 2, 3)) |> maybe_contains(list(1, 2, 3))
+just(list(1, 2, 3)) %>% maybe_contains(list(1, 2, 3))
 #> [1] TRUE
-nothing() |> maybe_contains(list(1, 2, 3))
+nothing() %>% maybe_contains(list(1, 2, 3))
 #> [1] FALSE
 ```
 

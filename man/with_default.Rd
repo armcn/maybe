@@ -21,6 +21,6 @@ The unwrapped maybe value or the default value
 Unwrap a maybe value or return a default
 }
 \examples{
-just(1) |> with_default(default = 0)
-nothing() |> with_default(default = 0)
+just(1) \%>\% with_default(default = 0)
+nothing() \%>\% with_default(default = 0)
 }

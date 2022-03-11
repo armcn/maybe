@@ -111,7 +111,7 @@ and <- function(...) {
   funs <-
     list(...)
 
-  \(a) {
+  function(a) {
     for (i in seq_along(funs))
       if (not_true(funs[[i]](a)))
         return(FALSE)
@@ -133,7 +133,7 @@ or <- function(...) {
   funs <-
     list(...)
 
-  \(a) {
+  function(a) {
     for (i in seq_along(funs))
       if (isTRUE(funs[[i]](a)))
         return(TRUE)

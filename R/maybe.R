@@ -42,10 +42,10 @@ nothing <- function() {
 #' maybe(sqrt, ensure = not_infinite)(-1)
 #' @return A function which returns maybe values
 #' @export
-maybe <- function(.f, ensure = \(a) TRUE, allow_warning = FALSE) {
-  \(...) {
+maybe <- function(.f, ensure = function(a) TRUE, allow_warning = FALSE) {
+  function(...) {
     eval_f <-
-      \(...) {
+      function(...) {
         result <-
           .f(...)
 
@@ -57,7 +57,7 @@ maybe <- function(.f, ensure = \(a) TRUE, allow_warning = FALSE) {
       }
 
     on_warning <-
-      \(w)
+      function(w)
         if (isTRUE(allow_warning))
           just(.f(...))
 
@@ -66,7 +66,7 @@ maybe <- function(.f, ensure = \(a) TRUE, allow_warning = FALSE) {
 
     tryCatch(
       eval_f(...),
-      error = \(e) nothing(),
+      error = function(e) nothing(),
       warning = on_warning
     )
   }
@@ -95,10 +95,13 @@ maybe <- function(.f, ensure = \(a) TRUE, allow_warning = FALSE) {
 #' perhaps(sqrt, default = 0, ensure = not_infinite)(-1)
 #' @return A function which returns the expected value or the default value
 #' @export
-perhaps <- function(.f, default, ensure = \(a) TRUE, allow_warning = FALSE) {
-  \(...)
-    maybe(.f, ensure = ensure, allow_warning = allow_warning)(...) |>
-      with_default(default = default)
+perhaps <- function(.f,
+                    default,
+                    ensure = function(a) TRUE,
+                    allow_warning = FALSE) {
+  function(...)
+    maybe(.f, ensure = ensure, allow_warning = allow_warning)(...) %>%
+      with_default(default)
 }
 
 #' Evaluate a function on a maybe value
@@ -108,16 +111,16 @@ perhaps <- function(.f, default, ensure = \(a) TRUE, allow_warning = FALSE) {
 #' @param ... Named arguments for the function `.f`
 #'
 #' @examples
-#' just(9) |> maybe_map(sqrt)
-#' nothing() |> maybe_map(sqrt)
+#' just(9) %>% maybe_map(sqrt)
+#' nothing() %>% maybe_map(sqrt)
 #' @return A maybe value
 #' @export
 maybe_map <- function(.m, .f, ...) {
   assert_is_maybe(.m)
 
   if (is_just(.m))
-    .f(.m$content, ...) |>
-      assert_returns_not_maybe() |>
+    .f(.m$content, ...) %>%
+      assert_returns_not_maybe() %>%
       just()
 
   else
@@ -137,16 +140,16 @@ fmap <- maybe_map
 #' @examples
 #' safe_sqrt <- maybe(sqrt, ensure = not_infinite)
 #'
-#' just(9) |> and_then(safe_sqrt)
-#' just(-1) |> and_then(safe_sqrt)
-#' nothing() |> and_then(safe_sqrt)
+#' just(9) %>% and_then(safe_sqrt)
+#' just(-1) %>% and_then(safe_sqrt)
+#' nothing() %>% and_then(safe_sqrt)
 #' @return A maybe value
 #' @export
 and_then <- function(.m, .f, ...) {
   assert_is_maybe(.m)
 
   if (is_just(.m))
-    .f(.m$content, ...) |>
+    .f(.m$content, ...) %>%
       assert_returns_maybe()
 
   else
@@ -162,10 +165,10 @@ bind <- and_then
 #' @param .m A maybe value
 #'
 #' @examples
-#' just(just(1)) |> maybe_flatten()
-#' just(nothing()) |> maybe_flatten()
-#' just(1) |> maybe_flatten()
-#' nothing() |> maybe_flatten()
+#' just(just(1)) %>% maybe_flatten()
+#' just(nothing()) %>% maybe_flatten()
+#' just(1) %>% maybe_flatten()
+#' nothing() %>% maybe_flatten()
 #' @return A maybe value
 #' @export
 maybe_flatten <- function(.m) {
@@ -188,8 +191,8 @@ join <- maybe_flatten
 #' @param default A default value to return if the maybe value is 'Nothing'
 #'
 #' @examples
-#' just(1) |> with_default(default = 0)
-#' nothing() |> with_default(default = 0)
+#' just(1) %>% with_default(default = 0)
+#' nothing() %>% with_default(default = 0)
 #' @return The unwrapped maybe value or the default value
 #' @export
 with_default <- function(.m, default) {
@@ -216,9 +219,9 @@ from_maybe <- with_default
 #' @param value A value to check
 #'
 #' @examples
-#' just(1) |> maybe_contains(1)
-#' just("a") |> maybe_contains(1)
-#' nothing() |> maybe_contains(1)
+#' just(1) %>% maybe_contains(1)
+#' just("a") %>% maybe_contains(1)
+#' nothing() %>% maybe_contains(1)
 #' @return `TRUE` or `FALSE`
 #' @export
 maybe_contains <- function(.m, value) {
@@ -278,7 +281,7 @@ is_maybe <- function(a) {
 #' @return `TRUE` or `FALSE`
 #' @export
 is_just <- function(a) {
-  and(is_maybe, \(b) identical(b$type, "just"))(a)
+  and(is_maybe, function(b) identical(b$type, "just"))(a)
 }
 
 #' Check if an object is a 'Nothing' value
@@ -292,7 +295,7 @@ is_just <- function(a) {
 #' @return `TRUE` or `FALSE`
 #' @export
 is_nothing <- function(a) {
-  and(is_maybe, \(b) identical(b$type, "nothing"))(a)
+  and(is_maybe, function(b) identical(b$type, "nothing"))(a)
 }
 
 #' @export
@@ -302,7 +305,7 @@ print.maybe <- function(x, ...) {
     print(x$content, ...)
 
   } else
-    cat("Nothing")
+    cat("Nothing\n")
 }
 
 as_maybe <- function(a) {

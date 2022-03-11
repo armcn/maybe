@@ -20,7 +20,7 @@ a 'Just' variant the contents will be unwrapped and compared to the \code{value}
 argument using \code{base::identical}.
 }
 \examples{
-just(1) |> maybe_contains(1)
-just("a") |> maybe_contains(1)
-nothing() |> maybe_contains(1)
+just(1) \%>\% maybe_contains(1)
+just("a") \%>\% maybe_contains(1)
+nothing() \%>\% maybe_contains(1)
 }

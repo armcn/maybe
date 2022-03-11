@@ -19,8 +19,8 @@ A maybe value
 Flatten a nested maybe value
 }
 \examples{
-just(just(1)) |> maybe_flatten()
-just(nothing()) |> maybe_flatten()
-just(1) |> maybe_flatten()
-nothing() |> maybe_flatten()
+just(just(1)) \%>\% maybe_flatten()
+just(nothing()) \%>\% maybe_flatten()
+just(1) \%>\% maybe_flatten()
+nothing() \%>\% maybe_flatten()
 }

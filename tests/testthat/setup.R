@@ -2,9 +2,9 @@ library(quickcheck)
 
 is_dev_version <- function() {
   version_length <-
-    utils::packageDescription("maybe")$Version |>
-      strsplit("\\.") |>
-      {\(a) length(a[[1]])}()
+    utils::packageDescription("maybe")$Version %>%
+      strsplit("\\.") %>%
+      {function(a) length(a[[1]])}()
 
   version_length > 3L
 }

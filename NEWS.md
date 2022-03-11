@@ -1,3 +1,9 @@
+# maybe 0.2.1
+
+Internal changes
+
+- Now doesn't require R >= 4.1
+
 # maybe 0.2.0
 
 Major breaking changes

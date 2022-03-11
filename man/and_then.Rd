@@ -25,7 +25,7 @@ Evaluate a maybe returning function on a maybe value
 \examples{
 safe_sqrt <- maybe(sqrt, ensure = not_infinite)
 
-just(9) |> and_then(safe_sqrt)
-just(-1) |> and_then(safe_sqrt)
-nothing() |> and_then(safe_sqrt)
+just(9) \%>\% and_then(safe_sqrt)
+just(-1) \%>\% and_then(safe_sqrt)
+nothing() \%>\% and_then(safe_sqrt)
 }
