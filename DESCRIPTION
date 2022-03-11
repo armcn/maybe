@@ -23,6 +23,6 @@ Imports:
     magrittr
 Suggests: 
     testthat (>= 3.0.0),
-    quickcheck (>= 0.1.1),
+    quickcheck,
     covr
 Config/testthat/edition: 3
