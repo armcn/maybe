@@ -246,11 +246,11 @@ cat_maybes <- filter_justs
 #' @param ... Named arguments for the function `.f`
 #'
 #' @examples
-#' filter_map(list(-1, 1, "2"), maybe(sqrt))
+#' filter_map(list(-1, "2", 9), maybe(sqrt))
 #' @return A list of values
 #' @export
-filter_map <- function(.l, .f) {
-  filter_justs(lapply(.l, .f))
+filter_map <- function(.l, .f, ...) {
+  filter_justs(lapply(.l, .f, ...))
 }
 
 #' Check if a maybe value contains a specific value

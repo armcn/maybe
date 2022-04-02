@@ -4,7 +4,7 @@
 \alias{filter_map}
 \title{Map a function over a list and filter only 'Just' values}
 \usage{
-filter_map(.l, .f)
+filter_map(.l, .f, ...)
 }
 \arguments{
 \item{.l}{List of values}
@@ -20,5 +20,5 @@ A list of values
 Map a function over a list and filter only 'Just' values
 }
 \examples{
-filter_map(list(-1, 1, "2"), maybe(sqrt))
+filter_map(list(-1, "2", 9), maybe(sqrt))
 }
