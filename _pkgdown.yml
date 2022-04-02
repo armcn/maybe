@@ -28,6 +28,9 @@ reference:
     - and_then
     - maybe_flatten
     - with_default
+    - from_just
+    - filter_justs
+    - filter_map
     - maybe_contains
     - maybe_equal
     - is_maybe

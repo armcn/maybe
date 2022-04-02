@@ -223,6 +223,36 @@ from_just <- function(.m) {
   .m$content
 }
 
+#' Filter and unwrap a list of 'Just' values
+#'
+#' @param .l List of maybe values
+#'
+#' @examples
+#' filter_justs(list(just(1), nothing(), just("a")))
+#' @return A list of values
+#' @export
+filter_justs <- function(.l) {
+  lapply(Filter(is_just, .l), from_just)
+}
+
+#' @rdname filter_justs
+#' @export
+cat_maybes <- filter_justs
+
+#' Map a function over a list and filter only 'Just' values
+#'
+#' @param .l List of values
+#' @param .f A maybe returning function to apply to the maybe values
+#' @param ... Named arguments for the function `.f`
+#'
+#' @examples
+#' filter_map(list(-1, 1, "2"), maybe(sqrt))
+#' @return A list of values
+#' @export
+filter_map <- function(.l, .f) {
+  filter_justs(lapply(.l, .f))
+}
+
 #' Check if a maybe value contains a specific value
 #'
 #' If the maybe value is a 'Nothing' variant `FALSE` will be returned. If it is
