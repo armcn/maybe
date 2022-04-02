@@ -209,6 +209,20 @@ with_default <- function(.m, default) {
 #' @export
 from_maybe <- with_default
 
+#' Unwrap a 'Just' value or throw an error
+#'
+#' @param .m A maybe value
+#'
+#' @examples
+#' just(1) %>% from_just()
+#' @return The unwrapped 'Just' value
+#' @export
+from_just <- function(.m) {
+  assert_is_just(.m)
+
+  .m$content
+}
+
 #' Check if a maybe value contains a specific value
 #'
 #' If the maybe value is a 'Nothing' variant `FALSE` will be returned. If it is
@@ -318,6 +332,14 @@ assert_is_maybe <- function(a) {
 
   else
     stop("The argument '.m' must be a maybe value.", call. = FALSE)
+}
+
+assert_is_just <- function(a) {
+  if (is_just(a))
+    invisible(a)
+
+  else
+    stop("The argument '.m' must be a 'Just' value.", call. = FALSE)
 }
 
 assert_returns_maybe <- function(a) {
