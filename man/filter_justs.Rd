@@ -2,12 +2,9 @@
 % Please edit documentation in R/maybe.R
 \name{filter_justs}
 \alias{filter_justs}
-\alias{cat_maybes}
 \title{Filter and unwrap a list of 'Just' values}
 \usage{
 filter_justs(.l)
-
-cat_maybes(.l)
 }
 \arguments{
 \item{.l}{List of maybe values}

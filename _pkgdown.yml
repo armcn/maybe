@@ -24,15 +24,16 @@ reference:
     - nothing
     - maybe
     - perhaps
-    - maybe_map
     - and_then
+    - maybe_map
+    - maybe_map2
     - maybe_flatten
+    - maybe_contains
+    - maybe_equal
     - with_default
     - from_just
     - filter_justs
     - filter_map
-    - maybe_contains
-    - maybe_equal
     - is_maybe
     - is_just
     - is_nothing

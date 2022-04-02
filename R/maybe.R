@@ -131,6 +131,33 @@ maybe_map <- function(.m, .f, ...) {
 #' @export
 fmap <- maybe_map
 
+#' Evaluate a binary function on two maybe values
+#'
+#' @param .m1 A maybe value
+#' @param .m2 A maybe value
+#' @param .f A binary function to apply to the maybe values
+#' @param ... Named arguments for the function `.f`
+#'
+#' @examples
+#' maybe_map2(just(1), just(2), `+`)
+#' maybe_map2(nothing(), just(2), `/`)
+#' @return A maybe value
+#' @export
+maybe_map2 <- function(.m1, .m2, .f, ...) {
+  maybes <-
+    list(.m1, .m2)
+
+  assert_all_maybes(maybes)
+
+  if (all_justs(maybes))
+    do.call(.f, c(filter_justs(maybes), ...)) %>%
+      assert_returns_not_maybe() %>%
+      just()
+
+  else
+    nothing()
+}
+
 #' Evaluate a maybe returning function on a maybe value
 #'
 #' @param .m A maybe value
@@ -232,12 +259,10 @@ from_just <- function(.m) {
 #' @return A list of values
 #' @export
 filter_justs <- function(.l) {
+  assert_all_maybes(.l)
+
   lapply(Filter(is_just, .l), from_just)
 }
-
-#' @rdname filter_justs
-#' @export
-cat_maybes <- filter_justs
 
 #' Map a function over a list and filter only 'Just' values
 #'
@@ -356,12 +381,39 @@ as_maybe <- function(a) {
   structure(a, class = "maybe")
 }
 
+all_maybes <- function(.l) {
+  if (not_empty(.l))
+    all(Vectorize(is_maybe)(.l))
+
+  else
+    FALSE
+}
+
+all_justs <- function(.l) {
+  if (not_empty(.l))
+    all(Vectorize(is_just)(.l))
+
+  else
+    FALSE
+}
+
 assert_is_maybe <- function(a) {
   if (is_maybe(a))
     invisible(a)
 
   else
     stop("The argument '.m' must be a maybe value.", call. = FALSE)
+}
+
+assert_all_maybes <- function(a) {
+  if (all_maybes(a))
+    invisible(a)
+
+  else
+    stop(
+      "All arguments with the prefix '.m' must be maybe values.",
+      call. = FALSE
+    )
 }
 
 assert_is_just <- function(a) {
