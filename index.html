@@ -37,7 +37,7 @@
     
     <a class="navbar-brand me-2" href="index.html">maybe</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -123,11 +123,33 @@
 
 <span class="fu">mean_mpg_of_cyl</span><span class="op">(</span><span class="fl">100L</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0</span></code></pre></div>
+<p>Here is an example of working with data stored in JSON format.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org" class="external-link">purrr</a></span><span class="op">)</span>
+
+<span class="va">parse_numbers</span> <span class="op">&lt;-</span> 
+  <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="reference/filter_map.html">filter_map</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="reference/maybe.html">maybe</a></span><span class="op">(</span><span class="va">as.numeric</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">safe_first</span> <span class="op">&lt;-</span> 
+  <span class="fu"><a href="reference/maybe.html">maybe</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, ensure <span class="op">=</span> <span class="va">not_empty</span><span class="op">)</span>
+
+<span class="va">sum_first_numbers</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">json</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html" class="external-link">fromJSON</a></span><span class="op">(</span><span class="va">json</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="reference/filter_map.html">filter_map</a></span><span class="op">(</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/compose.html" class="external-link">compose</a></span><span class="op">(</span><span class="va">safe_first</span>, <span class="va">parse_numbers</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="reference/perhaps.html">perhaps</a></span><span class="op">(</span><span class="va">reduce</span>, default <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">(</span><span class="va">`+`</span><span class="op">)</span>
+<span class="op">}</span>
+
+<span class="fu">sum_first_numbers</span><span class="op">(</span><span class="st">'{"a": [], "b": [1, 2.2, "three"], "c": [3]}'</span><span class="op">)</span>
+<span class="co">#&gt; [1] 4</span>
+<span class="fu">sum_first_numbers</span><span class="op">(</span><span class="st">'{}'</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0</span>
+<span class="fu">sum_first_numbers</span><span class="op">(</span><span class="st">'1, 2, 3'</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0</span></code></pre></div>
 <div class="section level2">
 <h2 id="the-maybe-type">The maybe type<a class="anchor" aria-label="anchor" href="#the-maybe-type"></a>
 </h2>
 <p>Maybe values can be used to model computations that may fail or have undefined outputs. For example, dividing by zero is mathematically undefined but in many programming languages, including R, infinity is returned. If it is not properly accounted for this may cause unexpected behavior later in the program. The maybe type can be used to improve the safety of the divide function.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">`%//%`</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span> <span class="op">{</span>
   <span class="kw">if</span> <span class="op">(</span><span class="va">b</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="fu"><a href="reference/nothing.html">nothing</a></span><span class="op">(</span><span class="op">)</span> <span class="kw">else</span> <span class="fu"><a href="reference/just.html">just</a></span><span class="op">(</span><span class="va">a</span> <span class="op">/</span> <span class="va">b</span><span class="op">)</span>
 <span class="op">}</span>
@@ -144,7 +166,7 @@
 <span class="co">#&gt; Nothing</span></code></pre></div>
 <p><code>10 %//% 2</code> returns <code>Just 5</code> and <code>10 %//% 0</code> returns <code>Nothing</code>. These are the two possible values of the maybe type. It can be <code>Just</code> the value, or it can be <code>Nothing</code>, the absence of a value. For the value to be used as an input to another function you need to specify what will happen if the function returns <code>Nothing</code>.</p>
 <p>This can be done using the <code>with_default</code> function. This function will return the value contained in the <code>Just</code>, or if it is <code>Nothing</code> it will return the default. Think of a maybe value as a container. In this container can be <code>Just</code> the value or <code>Nothing</code>. To use the contained value in a regular R function you need to unwrap it first.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fl">10</span> <span class="op">%//%</span> <span class="fl">2</span>
 <span class="co">#&gt; Just</span>
 <span class="co">#&gt; [1] 5</span>
@@ -161,7 +183,7 @@
 </h2>
 <p>This may seem tedious to rewrite functions to return maybe values and then specify a default value each time. This is where the maybe chaining functions become useful.</p>
 <p><code>maybe_map</code> allows a regular R function to be evaluated on a maybe value. <code>maybe_map</code>, often called <code>fmap</code> in other languages, reaches into the maybe value, applies a function to the value, then re-wraps the result in a maybe. If the input is a <code>Just</code> value, the return value of <code>maybe_map</code> will also be a <code>Just</code>. If it is <code>Nothing</code> the return value will be <code>Nothing</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">safe_max</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op">{</span>
   <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0L</span><span class="op">)</span> <span class="fu"><a href="reference/nothing.html">nothing</a></span><span class="op">(</span><span class="op">)</span> <span class="kw">else</span> <span class="fu"><a href="reference/just.html">just</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span>
@@ -178,7 +200,7 @@
 <span class="fu">safe_max</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/maybe_map.html">maybe_map</a></span><span class="op">(</span><span class="va">sqrt</span><span class="op">)</span>
 <span class="co">#&gt; Nothing</span></code></pre></div>
 <p>What if we wanted to chain multiple “safe” functions (functions that return maybe values) together? The function <code>and_then</code>, often called <code>bind</code> in other languages, works similarly to <code>maybe_map</code> except the function provided must return a maybe value.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">safe_sqrt</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op">{</span>
   <span class="kw">if</span> <span class="op">(</span><span class="va">a</span> <span class="op">&lt;</span> <span class="fl">0</span><span class="op">)</span> <span class="fu"><a href="reference/nothing.html">nothing</a></span><span class="op">(</span><span class="op">)</span> <span class="kw">else</span> <span class="fu"><a href="reference/just.html">just</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span>
@@ -196,14 +218,14 @@
 </h2>
 <p>The maybe package provides another way to create functions that return maybe values. Instead of rewriting the function to return maybe values we can wrap it in the <code>maybe</code> function. This will modify the function to return <code>Nothing</code> on an error or warning.</p>
 <p>A predicate function (a function that returns <code>TRUE</code> or <code>FALSE</code>) can be provided as an argument to assert something about the return value. If the predicate returns <code>TRUE</code> then a <code>Just</code> value will be returned, otherwise it will be <code>Nothing</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">safe_max</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/maybe.html">maybe</a></span><span class="op">(</span><span class="va">max</span><span class="op">)</span>
 <span class="va">safe_sqrt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/maybe.html">maybe</a></span><span class="op">(</span><span class="va">sqrt</span>, ensure <span class="op">=</span> <span class="va">not_infinite</span><span class="op">)</span>
 
 <span class="fu">safe_max</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/and_then.html">and_then</a></span><span class="op">(</span><span class="va">safe_sqrt</span><span class="op">)</span>
 <span class="fu">safe_max</span><span class="op">(</span><span class="st">"hello"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/and_then.html">and_then</a></span><span class="op">(</span><span class="va">safe_sqrt</span><span class="op">)</span></code></pre></div>
 <p>This pattern of modifying a function with the <code>maybe</code> function and then setting a default value is so common that there is a shortcut, <code>perhaps</code>. The default value is set with the <code>default</code> parameter. This function will always return a regular R value, never maybe values.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">safe_max</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/perhaps.html">perhaps</a></span><span class="op">(</span><span class="va">max</span>, ensure <span class="op">=</span> <span class="va">is.numeric</span>, default <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 
 <span class="fu">safe_max</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="op">)</span>
@@ -215,14 +237,14 @@
 <h2 id="predicates">Predicates<a class="anchor" aria-label="anchor" href="#predicates"></a>
 </h2>
 <p>Multiple predicates can be combined with the <code>and</code>/<code>or</code> functions.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">safe_sqrt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/maybe.html">maybe</a></span><span class="op">(</span><span class="va">mean</span>, ensure <span class="op">=</span> <span class="fu"><a href="reference/and.html">and</a></span><span class="op">(</span><span class="va">not_infinite</span>, <span class="va">not_empty</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu">safe_sqrt</span><span class="op">(</span><span class="fl">9</span><span class="op">)</span>
 <span class="co">#&gt; Just</span>
 <span class="co">#&gt; [1] 9</span></code></pre></div>
 <p>Predefined combinations are also provided such as <code>not_undefined</code>, which ensures that the output is not any of <code>NULL</code>, <code>NA</code>, <code>NaN</code>, <code>-Inf</code>, or <code>Inf</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">safe_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/maybe.html">maybe</a></span><span class="op">(</span><span class="va">mean</span>, ensure <span class="op">=</span> <span class="va">not_undefined</span><span class="op">)</span>
 
 <span class="fu">safe_mean</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
