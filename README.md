@@ -67,6 +67,31 @@ mean_mpg_of_cyl(100L)
 #> [1] 0
 ```
 
+Here is an example of working with data stored in JSON format.
+
+``` r
+library(purrr)
+
+parse_numbers <- 
+  function(x) filter_map(x, maybe(as.numeric))
+
+safe_first <- 
+  maybe(function(x) x[[1]], ensure = not_empty)
+
+sum_first_numbers <- function(json) {
+  jsonlite::fromJSON(json) %>%
+    filter_map(compose(safe_first, parse_numbers)) %>% 
+    perhaps(reduce, default = 0)(`+`)
+}
+
+sum_first_numbers('{"a": [], "b": [1, 2.2, "three"], "c": [3]}')
+#> [1] 4
+sum_first_numbers('{}')
+#> [1] 0
+sum_first_numbers('1, 2, 3')
+#> [1] 0
+```
+
 ## The maybe type
 
 Maybe values can be used to model computations that may fail or have
