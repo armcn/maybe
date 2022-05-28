@@ -119,7 +119,7 @@ maybe_map <- function(.m, .f, ...) {
   assert_is_maybe(.m)
 
   if (is_just(.m))
-    .f(.m$content, ...) %>%
+    .f(from_just(.m), ...) %>%
       assert_returns_not_maybe() %>%
       just()
 
@@ -176,7 +176,7 @@ and_then <- function(.m, .f, ...) {
   assert_is_maybe(.m)
 
   if (is_just(.m))
-    .f(.m$content, ...) %>%
+    .f(from_just(.m), ...) %>%
       assert_returns_maybe()
 
   else
@@ -201,8 +201,8 @@ bind <- and_then
 maybe_flatten <- function(.m) {
   assert_is_maybe(.m)
 
-  if (is_just(.m) && is_maybe(.m$content))
-    .m$content
+  if (is_just(.m) && is_maybe(from_just(.m)))
+    from_just(.m)
 
   else
     .m
@@ -226,7 +226,7 @@ with_default <- function(.m, default) {
   assert_is_maybe(.m)
 
   if (is_just(.m))
-    .m$content
+    from_just(.m)
 
   else
     default
@@ -235,6 +235,27 @@ with_default <- function(.m, default) {
 #' @rdname with_default
 #' @export
 from_maybe <- with_default
+
+#' Unwrap and call a function on a maybe value or return a default
+#'
+#' @param .m A maybe value
+#' @param .f A function to apply to the maybe value in the case of 'Just'
+#' @param default A default value to return in the case of 'Nothing'
+#'
+#' @examples
+#' just(1:10) %>% maybe_case(mean, 0)
+#' nothing() %>% maybe_case(mean, 0)
+#' @return The return value of the 'Just' function or the default value
+#' @export
+maybe_case <- function(.m, .f, default) {
+  assert_is_maybe(.m)
+
+  if (is_just(.m))
+    .f(from_just(.m))
+
+  else
+    default
+}
 
 #' Unwrap a 'Just' value or throw an error
 #'
@@ -275,7 +296,11 @@ filter_justs <- function(.l) {
 #' @return A list of values
 #' @export
 filter_map <- function(.l, .f, ...) {
-  filter_justs(lapply(.l, .f, ...))
+  if (not_empty(.l))
+    filter_justs(lapply(.l, .f, ...))
+
+  else
+    .l
 }
 
 #' Check if a maybe value contains a specific value
@@ -300,7 +325,7 @@ maybe_contains <- function(.m, value) {
     FALSE
 
   else
-    identical(.m$content, value)
+    identical(from_just(.m), value)
 }
 
 #' Check if two maybe values are equal
@@ -382,19 +407,11 @@ as_maybe <- function(a) {
 }
 
 all_maybes <- function(.l) {
-  if (not_empty(.l))
-    all(Vectorize(is_maybe)(.l))
-
-  else
-    FALSE
+  not_empty(.l) && all(Vectorize(is_maybe)(.l))
 }
 
 all_justs <- function(.l) {
-  if (not_empty(.l))
-    all(Vectorize(is_just)(.l))
-
-  else
-    FALSE
+  not_empty(.l) && all(Vectorize(is_just)(.l))
 }
 
 assert_is_maybe <- function(a) {

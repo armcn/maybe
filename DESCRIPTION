@@ -1,6 +1,6 @@
 Package: maybe
 Title: The Maybe Monad
-Version: 0.2.1.9001
+Version: 1.0.0
 Authors@R: 
     person(given = "Andrew",
            family = "McNeil",

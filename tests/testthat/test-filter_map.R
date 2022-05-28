@@ -1,10 +1,22 @@
-test_that("filter_map will return an empty list if all values are nothing", {
-  list(nothing()) %>%
-    filter_map(identity) %>%
+test_that("filter_map will return an empty list if '.l' is an empty list", {
+  return_nothing <- function(a) nothing()
+
+  filter_map(list(), return_nothing) %>%
     expect_identical(list())
 
-  list(nothing(), nothing()) %>%
-    filter_map(identity) %>%
+  filter_map(list(), just) %>%
+    expect_identical(list())
+})
+
+test_that("filter_map will return an empty list if all values are nothing", {
+  return_nothing <- function(a) nothing()
+
+  list(1) %>%
+    filter_map(return_nothing) %>%
+    expect_identical(list())
+
+  list(1, 2) %>%
+    filter_map(return_nothing) %>%
     expect_identical(list())
 })
 
@@ -12,19 +24,20 @@ test_that("filter_map will unwrap values if all values are justs", {
   for_all(
     a = any_list(),
     property = function(a) {
-      lapply(a, just) %>%
-        filter_map(identity) %>%
+      filter_map(a, just) %>%
         expect_identical(a)
     }
   )
 })
 
 test_that("filter_map will drop nothings", {
-  list(nothing()) %>%
-    filter_map(identity) %>%
+  parse_numeric <- maybe(as.numeric)
+
+  list("a") %>%
+    filter_map(parse_numeric) %>%
     expect_identical(list())
 
-  list(just(1), just("a"), nothing()) %>%
-    filter_map(identity) %>%
-    expect_identical(list(1, "a"))
+  list(1, "a", "b") %>%
+    filter_map(parse_numeric) %>%
+    expect_identical(list(1))
 })

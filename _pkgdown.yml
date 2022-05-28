@@ -30,6 +30,7 @@ reference:
     - maybe_flatten
     - maybe_contains
     - maybe_equal
+    - maybe_case
     - with_default
     - from_just
     - filter_justs

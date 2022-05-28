@@ -25,6 +25,10 @@ test_that("maybe_map2 will fail with a maybe returning function", {
 })
 
 test_that("maybe_map2 will return nothing if either maybe is nothing", {
+  maybe_map2(nothing(), nothing(), identity) %>%
+    is_nothing() %>%
+    expect_true()
+
   for_all(
     a = anything(),
     b = anything(),

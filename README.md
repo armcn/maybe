@@ -46,12 +46,11 @@ The following example shows how the maybe package can be used to create
 a safe data processing pipeline.
 
 ``` r
-library(dplyr, warn.conflicts = FALSE)
 library(maybe)
 
-safe_filter <- maybe(filter, ensure = not_empty)
+safe_filter <- maybe(dplyr::filter, ensure = not_empty)
 safe_mean <- maybe(mean, ensure = not_undefined)
-safe_pull <- maybe(pull)
+safe_pull <- maybe(dplyr::pull)
 
 mean_mpg_of_cyl <- function(.cyl) {
   mtcars %>% 
@@ -227,27 +226,6 @@ safe_mean(c(1, 2, 3))
 #> [1] 2
 safe_mean(c(NA, 2, 3))
 #> Nothing
-```
-
-## Comparing values
-
-Two maybe values can be compared using `maybe_equal`. It will return
-`TRUE` if they are identical `Just` values or both values are `Nothing`.
-To check if a maybe value contains a specific value use
-`maybe_contains`.
-
-``` r
-maybe_equal(nothing(), nothing())
-#> [1] TRUE
-maybe_equal(just(1), just(1))
-#> [1] TRUE
-maybe_equal(just("hello"), nothing())
-#> [1] FALSE
-
-just(list(1, 2, 3)) %>% maybe_contains(list(1, 2, 3))
-#> [1] TRUE
-nothing() %>% maybe_contains(list(1, 2, 3))
-#> [1] FALSE
 ```
 
 ## Function names
