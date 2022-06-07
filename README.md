@@ -62,7 +62,6 @@ mean_mpg_of_cyl <- function(.cyl) {
 
 mean_mpg_of_cyl(8L)
 #> [1] 15.1
-
 mean_mpg_of_cyl(100L)
 #> [1] 0
 ```
@@ -102,27 +101,31 @@ behavior later in the program. The maybe type can be used to improve the
 safety of the divide function.
 
 ``` r
-`%//%` <- function(a, b) {
+divide <- function(a, b) {
+  a / b
+}
+
+safe_divide <- function(a, b) {
   if (b == 0) nothing() else just(a / b)
 }
 
-10 / 2
+divide(10, 2)
 #> [1] 5
-10 %//% 2
+safe_divide(10, 2)
 #> Just
 #> [1] 5
 
-10 / 0
+divide(10, 0)
 #> [1] Inf
-10 %//% 0
+safe_divide(10, 0)
 #> Nothing
 ```
 
-`10 %//% 2` returns `Just 5` and `10 %//% 0` returns `Nothing`. These
-are the two possible values of the maybe type. It can be `Just` the
-value, or it can be `Nothing`, the absence of a value. For the value to
-be used as an input to another function you need to specify what will
-happen if the function returns `Nothing`.
+`safe_divide(10, 2)` returns `Just 5` and `safe_divide(10, 0)` returns
+`Nothing`. These are the two possible values of the maybe type. It can
+be `Just` the value, or it can be `Nothing`, the absence of a value. For
+the value to be used as an input to another function you need to specify
+what will happen if the function returns `Nothing`.
 
 This can be done using the `with_default` function. This function will
 return the value contained in the `Just`, or if it is `Nothing` it will
@@ -131,15 +134,15 @@ container can be `Just` the value or `Nothing`. To use the contained
 value in a regular R function you need to unwrap it first.
 
 ``` r
-10 %//% 2
+safe_divide(10, 2)
 #> Just
 #> [1] 5
-10 %//% 2 %>% with_default(0)
+safe_divide(10, 2) %>% with_default(0)
 #> [1] 5
 
-10 %//% 0
+safe_divide(10, 0)
 #> Nothing
-10 %//% 0 %>% with_default(0)
+safe_divide(10, 0) %>% with_default(0)
 #> [1] 0
 ```
 
@@ -157,20 +160,10 @@ result in a maybe. If the input is a `Just` value, the return value of
 will be `Nothing`.
 
 ``` r
-safe_max <- function(a) {
-  if (length(a) == 0L) nothing() else just(max(a))
-}
-
 just(9) %>% maybe_map(sqrt)
 #> Just
 #> [1] 3
 nothing() %>% maybe_map(sqrt)
-#> Nothing
-
-safe_max(1:9) %>% maybe_map(sqrt)
-#> Just
-#> [1] 3
-safe_max(integer(0)) %>% maybe_map(sqrt)
 #> Nothing
 ```
 
@@ -180,16 +173,23 @@ return maybe values) together? The function `and_then`, often called
 function provided must return a maybe value.
 
 ``` r
+safe_max <- function(a) {
+  if (length(a) == 0) nothing() else just(max(a))
+}
+
 safe_sqrt <- function(a) {
   if (a < 0) nothing() else just(sqrt(a))
 }
 
-just(9) %>% and_then(safe_sqrt)
-nothing() %>% and_then(safe_sqrt)
-#> Nothing
+just(1:9) %>%
+  and_then(safe_max) %>%
+  and_then(safe_sqrt)
+#> Just
+#> [1] 3
 
-safe_max(1:9) %>% and_then(safe_sqrt)
-safe_max(integer()) %>% and_then(safe_sqrt)
+nothing() %>%
+  and_then(safe_max) %>%
+  and_then(safe_sqrt)
 #> Nothing
 ```
 
@@ -210,7 +210,10 @@ safe_max <- maybe(max)
 safe_sqrt <- maybe(sqrt, ensure = not_infinite)
 
 safe_max(1:9) %>% and_then(safe_sqrt)
+#> Just
+#> [1] 3
 safe_max("hello") %>% and_then(safe_sqrt)
+#> Nothing
 ```
 
 This pattern of modifying a function with the `maybe` function and then
@@ -219,11 +222,11 @@ setting a default value is so common that there is a shortcut,
 function will always return a regular R value, never maybe values.
 
 ``` r
-safe_max <- perhaps(max, ensure = is.numeric, default = 0)
+perhaps_max <- perhaps(max, ensure = is.numeric, default = 0)
 
-safe_max(1:9) %>% sqrt()
-#> [1] 3
-safe_max("hello") %>% sqrt()
+perhaps_max(1:9) 
+#> [1] 9
+perhaps_max("hello") 
 #> [1] 0
 ```
 
@@ -232,11 +235,13 @@ safe_max("hello") %>% sqrt()
 Multiple predicates can be combined with the `and`/`or` functions.
 
 ``` r
-safe_sqrt <- maybe(mean, ensure = and(not_infinite, not_empty))
+safe_sqrt <- maybe(sqrt, ensure = and(not_nan, not_empty))
 
 safe_sqrt(9)
 #> Just
-#> [1] 9
+#> [1] 3
+safe_sqrt(-1)
+#> Nothing
 ```
 
 Predefined combinations are also provided such as `not_undefined`, which

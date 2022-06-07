@@ -321,11 +321,7 @@ filter_map <- function(.l, .f, ...) {
 maybe_contains <- function(.m, value) {
   assert_is_maybe(.m)
 
-  if (is_nothing(.m))
-    FALSE
-
-  else
-    identical(from_just(.m), value)
+  is_just(.m) && identical(from_just(.m), value)
 }
 
 #' Check if two maybe values are equal
@@ -416,7 +412,7 @@ all_justs <- function(.l) {
 
 assert_is_maybe <- function(a) {
   if (is_maybe(a))
-    invisible(a)
+    a
 
   else
     stop("The argument '.m' must be a maybe value.", call. = FALSE)
@@ -424,7 +420,7 @@ assert_is_maybe <- function(a) {
 
 assert_all_maybes <- function(a) {
   if (all_maybes(a))
-    invisible(a)
+    a
 
   else
     stop(
@@ -435,7 +431,7 @@ assert_all_maybes <- function(a) {
 
 assert_is_just <- function(a) {
   if (is_just(a))
-    invisible(a)
+    a
 
   else
     stop("The argument '.m' must be a 'Just' value.", call. = FALSE)
@@ -443,7 +439,7 @@ assert_is_just <- function(a) {
 
 assert_returns_maybe <- function(a) {
   if (is_maybe(a))
-    invisible(a)
+    a
 
   else
     stop(
@@ -460,5 +456,5 @@ assert_returns_not_maybe <- function(a) {
     )
 
   else
-    invisible(a)
+    a
 }

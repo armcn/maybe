@@ -16,12 +16,12 @@ not_empty <- function(a) {
 
 #' @export
 not_empty.default <- function(a) {
-  isTRUE(length(a) != 0L)
+  not_true(length(a) == 0L)
 }
 
 #' @export
 not_empty.data.frame <- function(a) {
-  isTRUE(nrow(a) != 0L)
+  not_true(nrow(a) == 0L)
 }
 
 #' Check if an object is not NULL
@@ -34,7 +34,7 @@ not_empty.data.frame <- function(a) {
 #' @return `TRUE` or `FALSE`
 #' @export
 not_null <- function(a) {
-  Negate(is.null)(a)
+  not_true(is.null(a))
 }
 
 #' Check if an object is not NA
