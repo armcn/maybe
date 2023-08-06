@@ -1,3 +1,15 @@
+# maybe 1.1.0
+
+Features
+
+- `maybe_map3` Evaluate a ternary function on three maybe values
+- `and_then2` Evaluate a binary maybe returning function on two maybe values
+- `and_then3` Evaluate a ternary maybe returning function on three maybe values
+
+Bug fixes
+
+- Fixed invisible return of maybe value to print correctly
+
 # maybe 1.0.0
 
 Features

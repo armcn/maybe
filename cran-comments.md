@@ -1,4 +1,4 @@
-This is the first submission of version 1.0.0.
+This is the first submission of version 1.1.0.
 
 ## Test Environments
 
