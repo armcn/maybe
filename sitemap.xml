@@ -25,6 +25,12 @@
     <loc>/reference/and_then.html</loc>
   </url>
   <url>
+    <loc>/reference/and_then2.html</loc>
+  </url>
+  <url>
+    <loc>/reference/and_then3.html</loc>
+  </url>
+  <url>
     <loc>/reference/filter_justs.html</loc>
   </url>
   <url>
@@ -68,6 +74,9 @@
   </url>
   <url>
     <loc>/reference/maybe_map2.html</loc>
+  </url>
+  <url>
+    <loc>/reference/maybe_map3.html</loc>
   </url>
   <url>
     <loc>/reference/not_empty.html</loc>
