@@ -25,8 +25,11 @@ reference:
     - maybe
     - perhaps
     - and_then
+    - and_then2
+    - and_then3
     - maybe_map
     - maybe_map2
+    - maybe_map3
     - maybe_flatten
     - maybe_contains
     - maybe_equal
