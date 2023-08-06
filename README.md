@@ -12,7 +12,7 @@ status](https://www.r-pkg.org/badges/version/maybe)](https://CRAN.R-project.org/
 coverage](https://codecov.io/gh/armcn/maybe/branch/main/graph/badge.svg)](https://app.codecov.io/gh/armcn/maybe?branch=main)
 [![metacran
 downloads](https://cranlogs.r-pkg.org/badges/maybe)](https://cran.r-project.org/package=maybe)
-
+[![R-CMD-check](https://github.com/armcn/maybe/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/armcn/maybe/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 # Overview
@@ -265,16 +265,16 @@ The names of functions `maybe_map`, `and_then`, `maybe_flatten`, and
 functions in other functional programming languages. If you would like
 to use the more traditional names aliases are provided.
 
--   `fmap` == `maybe_map`
--   `bind` == `and_then`
--   `join` == `maybe_flatten`
--   `from_maybe` == `with_default`
+- `fmap` == `maybe_map`
+- `bind` == `and_then`
+- `join` == `maybe_flatten`
+- `from_maybe` == `with_default`
 
 ## Inspiration / Prior work
 
--   [monads R package](https://github.com/hadley/monads)
--   [rmonad R package](https://github.com/arendsee/rmonad)
--   [Maybe Monad in R blog
-    post](https://www.r-bloggers.com/2019/05/maybe-monad-in-r/)
--   [Elm Maybe
-    package](https://package.elm-lang.org/packages/elm/core/1.0.5/Maybe)
+- [monads R package](https://github.com/hadley/monads)
+- [rmonad R package](https://github.com/arendsee/rmonad)
+- [Maybe Monad in R blog
+  post](https://www.r-bloggers.com/2019/05/maybe-monad-in-r/)
+- [Elm Maybe
+  package](https://package.elm-lang.org/packages/elm/core/1.0.5/Maybe)
